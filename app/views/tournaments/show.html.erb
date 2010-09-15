@@ -2,3 +2,8 @@
 <h1><%= @tournament.name %></h1>
 
 <p><%= @tournament.description %></p>
+
+<ul>
+	<li><% if @tournament.starts_at < Time.now %>Started<% else %>Starts<% end %> at: <%= @tournament.starts_at %></li>
+	<li><% if @tournament.ends_at < Time.now %>Ended<% else %>Ends<% end %> at: <%= @tournament.ends_at %></li>
+</ul>

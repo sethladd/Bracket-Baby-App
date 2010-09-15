@@ -13,6 +13,14 @@
 		<%= f.text_area :description %>
 	</div>
 	<div>
+		<%= f.label :starts_at %>
+		<%= f.datetime_select :starts_at %>
+	</div>
+	<div>
+		<%= f.label :ends_at%>
+		<%= f.datetime_select :ends_at %>
+	</div>
+	<div>
 		<%= f.submit 'Create' %>
 	</div>
 <% end %>

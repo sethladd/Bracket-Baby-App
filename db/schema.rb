@@ -15,11 +15,13 @@ ActiveRecord::Schema.define(:version => 20100914031846) do
   create_table "tournaments", :force => true do |t|
     t.string   "name"
     t.text     "description"
-    t.datetime "started_at"
+    t.datetime "starts_at"
+    t.datetime "ends_at"
     t.datetime "created_at"
     t.datetime "updated_at"
   end
 
-  add_index "tournaments", ["started_at"], :name => "index_tournaments_on_started_at"
+  add_index "tournaments", ["ends_at"], :name => "index_tournaments_on_ends_at"
+  add_index "tournaments", ["starts_at"], :name => "index_tournaments_on_starts_at"
 
 end

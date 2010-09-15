@@ -3,10 +3,12 @@ class CreateTournament < ActiveRecord::Migration
     create_table :tournaments do |t|
       t.string :name
       t.text :description
-      t.datetime :started_at
+      t.datetime :starts_at
+      t.datetime :ends_at
       t.timestamps
     end
-    add_index :tournaments, :started_at
+    add_index :tournaments, :starts_at
+    add_index :tournaments, :ends_at
   end
 
   def self.down
