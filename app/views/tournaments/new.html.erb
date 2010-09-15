@@ -1,6 +1,8 @@
 <% @title = 'Create a Tournament' %>
 <h1>New Tournament</h1>
 
+<%= error_messages_for @tournament %>
+
 <%= form_for @tournament do |f| %>
 	<div>
 		<%= f.label :name %>
