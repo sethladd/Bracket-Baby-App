@@ -1,4 +1,6 @@
 class TournamentsController < ApplicationController
+  before_filter :ensure_signed_in
+  
   def new
     @tournament = Tournament.new
   end

@@ -3,6 +3,10 @@ Tourneykit::Application.routes.draw do
     get 'upcoming', 'in_progress', :on => :collection
   end
   
+  resource :session
+  
+  root :to => 'home#index'
+  
   # The priority is based upon order of creation:
   # first created -> highest priority.
 
