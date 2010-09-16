@@ -1,6 +1,6 @@
 Tourneykit::Application.routes.draw do
   resources :tournaments do
-    get 'upcoming', 'in_progress', :on => :collection
+    get 'upcoming', 'in_progress', 'finished', :on => :collection
   end
   
   resource :session
