@@ -1,0 +1,7 @@
+<li>
+	<%= participant.user.email %> joined at <%= participant.created_at %>
+	<% if @tournament.participating?(current_user) %>
+	<%= link_to 'Withdraw', tournament_participant_path(@tournament, participant), :method => :delete,
+	                        :confirm => 'Are you sure you wish to withdraw?' %>
+	<% end %>
+</li>

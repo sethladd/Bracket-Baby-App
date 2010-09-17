@@ -3,8 +3,20 @@
 
 <p><%= @tournament.description %></p>
 
+<p>Current <%= @tournament.participants_count %> players participating</p>
+
 <ul>
 	<li><% if @tournament.started? %>Started<% else %>Starts<% end %> at: <%= @tournament.starts_at %></li>
 	<li><% if @tournament.ended? %>Ended<% else %>Ends<% end %> at: <%= @tournament.ends_at %></li>
-	<li><%= link_to 'Join this tournament', tournament_participants_path(@tournament) %></li>
+	<% unless @tournament.participating?(current_user) %>
+	<li><%= link_to 'Join this tournament', tournament_participants_path(@tournament), :method => :post %></li>
+	<% end %>
+</ul>
+
+<h2>Participants</h2>
+
+<ul>
+	<%= render :collection => @tournament.participants,
+	           :partial => 'participant_list_item',
+	           :as => :participant %>
 </ul>

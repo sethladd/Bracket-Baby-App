@@ -10,7 +10,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20100917045245) do
+ActiveRecord::Schema.define(:version => 20100917050509) do
 
   create_table "participants", :force => true do |t|
     t.integer  "user_id"
@@ -30,6 +30,7 @@ ActiveRecord::Schema.define(:version => 20100917045245) do
     t.datetime "ends_at"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.integer  "participants_count", :default => 0
   end
 
   add_index "tournaments", ["ends_at"], :name => "index_tournaments_on_ends_at"

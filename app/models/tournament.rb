@@ -1,5 +1,5 @@
 class Tournament < ActiveRecord::Base
-  has_many :participants
+  has_many :participants, :include => :user
   
   validates :name, :presence => true
   
@@ -26,5 +26,9 @@ class Tournament < ActiveRecord::Base
   
   def upcoming?
     (starts_at > Time.now)
+  end
+  
+  def participating?(user)
+    participants.any?{|p| p.user == user}
   end
 end
