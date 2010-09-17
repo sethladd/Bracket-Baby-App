@@ -4,4 +4,4 @@
 require File.expand_path('../config/application', __FILE__)
 require 'rake'
 
-Tourneykit::Application.load_tasks
+BracketBabyApp::Application.load_tasks
