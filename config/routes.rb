@@ -1,6 +1,7 @@
 BracketBabyApp::Application.routes.draw do
   resources :tournaments do
     get 'upcoming', 'in_progress', 'finished', :on => :collection
+    resources :participants
   end
   
   resource :session

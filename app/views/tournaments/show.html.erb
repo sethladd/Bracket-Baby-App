@@ -4,6 +4,7 @@
 <p><%= @tournament.description %></p>
 
 <ul>
-	<li><% if @tournament.starts_at < Time.now %>Started<% else %>Starts<% end %> at: <%= @tournament.starts_at %></li>
-	<li><% if @tournament.ends_at < Time.now %>Ended<% else %>Ends<% end %> at: <%= @tournament.ends_at %></li>
+	<li><% if @tournament.started? %>Started<% else %>Starts<% end %> at: <%= @tournament.starts_at %></li>
+	<li><% if @tournament.ended? %>Ended<% else %>Ends<% end %> at: <%= @tournament.ends_at %></li>
+	<li><%= link_to 'Join this tournament', tournament_participants_path(@tournament) %></li>
 </ul>
