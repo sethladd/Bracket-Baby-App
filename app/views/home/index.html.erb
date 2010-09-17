@@ -10,7 +10,8 @@
 </ul>
 
 <ul>
-	<li><a href="/tournaments/new">Create a Tournament</a></li>
+	<li><%= link_to 'Create a Tournament', new_tournament_path %></li>
+	<li><%= link_to 'List all Tournaments', tournaments_path %></li>
 	<% if signed_in? %>
 	<li><%= link_to 'Sign Out', session_path, :method => :delete %>
 	<% end %>
