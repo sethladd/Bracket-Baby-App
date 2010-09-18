@@ -10,7 +10,10 @@
 <p><%= @tournament.description %></p>
 
 <p>
-	Currently <%= @tournament.participants_count %> players interested, <%= @tournament.confirmed_participants.size %> confirmed and registered (out of a maximum of <%= @tournament.confirmation_limit %>), and <%= @tournament.waitlisted_participants.size %> on the waitlist.
+	Currently <%= @tournament.participants_count %> players interested,
+	<%= @tournament.confirmed_participants.size %> confirmed and
+	registered (out of a maximum of <%= @tournament.confirmation_limit %>),
+	and <%= @tournament.waitlisted_participants.size %> on the waitlist.
 </p>
 
 <ul>
@@ -25,7 +28,7 @@
 
 <ul>
 <% @tournament.confirmed_participants.each do |participant| %>
-	<li><%= render :partial => 'participant_list_item', :locals => {:participant => participant} %></li>
+	<%= render :partial => 'participant_list_item', :locals => {:participant => participant} %>
 <% end %>
 </ul>
 
