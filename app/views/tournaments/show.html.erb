@@ -1,22 +1,38 @@
 <% @title = @tournament.name %>
 <h1><%= @tournament.name %></h1>
 
+<% if flash[:error] %>
+<div class="error">
+	<%= flash[:error] %>
+</div>
+<% end %>
+
 <p><%= @tournament.description %></p>
 
-<p>Current <%= @tournament.participants_count %> players participating</p>
+<p>
+	Currently <%= @tournament.participants_count %> players interested, <%= @tournament.confirmed_participants.size %> confirmed and registered (out of a maximum of <%= @tournament.confirmation_limit %>), and <%= @tournament.waitlisted_participants.size %> on the waitlist.
+</p>
 
 <ul>
 	<li><% if @tournament.started? %>Started<% else %>Starts<% end %> at: <%= @tournament.starts_at %></li>
 	<li><% if @tournament.ended? %>Ended<% else %>Ends<% end %> at: <%= @tournament.ends_at %></li>
-	<% unless @tournament.participating?(current_user) %>
+	<% if !@tournament.participating?(current_user) %>
 	<li><%= link_to 'Join this tournament', tournament_participants_path(@tournament), :method => :post %></li>
 	<% end %>
 </ul>
 
-<h2>Participants</h2>
+<h2>Confirmed Participants</h2>
 
 <ul>
-	<%= render :collection => @tournament.participants,
-	           :partial => 'participant_list_item',
-	           :as => :participant %>
+<% @tournament.confirmed_participants.each do |participant| %>
+	<li><%= render :partial => 'participant_list_item', :locals => {:participant => participant} %></li>
+<% end %>
+</ul>
+
+<h2>Waitlisted Participants</h2>
+
+<ul>
+<% @tournament.waitlisted_participants.each do |participant| %>
+	<%= render :partial => 'participant_list_item', :locals => {:participant => participant} %>
+<% end %>
 </ul>

@@ -17,9 +17,12 @@
 		<%= f.datetime_select :starts_at %>
 	</div>
 	<div>
-		<%= f.label :ends_at%>
+		<%= f.label :ends_at %>
 		<%= f.datetime_select :ends_at %>
 	</div>
+	<div>
+		<%= f.label :participant_limit %>
+		<%= f.text_field :participant_limit, :type => "number", :max => 64 %>
 	<div>
 		<%= f.submit 'Create' %>
 	</div>

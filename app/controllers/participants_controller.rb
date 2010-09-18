@@ -2,9 +2,9 @@ class ParticipantsController < ApplicationController
   
   def create
     @tournament = Tournament.find(params[:tournament_id])
-    @participant = @tournament.participants.create(:user => current_user)
+    @participant = @tournament.participants.build(:user => current_user)
     unless @participant.save
-      flash[:error] = "Problem adding you to this tournament."
+      flash[:error] = "Uh oh: #{@participant.errors.full_messages.join("<br>")}"
     end
     redirect_to @tournament
   end
