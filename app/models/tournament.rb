@@ -2,10 +2,14 @@ class Tournament < ActiveRecord::Base
   has_many :participants, :include => :user, :dependent => :destroy
   
   validates :name, :presence => true
+  validates :starts_on, :ends_on, :date => {
+    :message => 'must be on or after today', :after_or_equal_to => Proc.new{Date.today} }
+  validates :ends_on, :date => {
+    :message => 'must be on or after start date', :after_or_equal_to => :starts_on }
   
-  scope :in_progress, lambda { where('starts_at < ? and ends_at > ?', Time.now, Time.now) }
-  scope :upcoming, lambda { where('starts_at > ?', Time.now) }
-  scope :finished, lambda { where('ends_at < ?', Time.now) }
+  scope :in_progress, lambda { where('starts_on <= ? and ends_on >= ?', Date.today, Date.today) }
+  scope :upcoming, lambda { where('starts_on > ?', Date.today) }
+  scope :finished, lambda { where('ends_at < ?', Date.today) }
   
   def confirmed_participants
     participants.order('created_at').limit(confirmation_limit)
@@ -32,20 +36,20 @@ class Tournament < ActiveRecord::Base
   end
   
   def started?
-    (starts_at < Time.now)
+    (starts_on <= Date.today)
   end
   
   def ended?
-    (ends_at < Time.now)
+    (ends_on <= Date.today)
   end
   
   def in_progress?
-    now = Time.now
-    (starts_at < now && ends_at > now)
+    today = Date.today
+    (starts_on <= today && ends_on >= today)
   end
   
   def finished?
-    (ends_at < Time.now)
+    (ends_onDate.today < Date.today)
   end
   
   def upcoming?
@@ -54,5 +58,13 @@ class Tournament < ActiveRecord::Base
   
   def participating?(user)
     !participants.where(:user_id => user.id).first.nil?
+  end
+  
+  private
+  
+  def end_date_is_greater_than_start_date
+    if ends_at < starts_at
+      errors.add(:ends_at, "must be on or after the start date")
+    end
   end
 end

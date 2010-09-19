@@ -13,16 +13,18 @@
 		<%= f.text_area :description %>
 	</div>
 	<div>
-		<%= f.label :starts_at %>
-		<%= f.datetime_select :starts_at %>
+		<%= f.label :starts_on %>
+		<div class="hint">(tourney starts at the *start* of this day)</div>
+		<%= f.date_select :starts_on %>
 	</div>
 	<div>
-		<%= f.label :ends_at %>
-		<%= f.datetime_select :ends_at %>
+		<%= f.label :ends_on %>
+		<div class="hint">(tourney ends at the *end* of this day, when the clock strikes midnight)</div>
+		<%= f.date_select :ends_on %>
 	</div>
 	<div>
-		<%= f.label :participant_limit %>
-		<%= f.text_field :participant_limit, :type => "number", :max => 64 %>
+		<%= f.label :confirmation_limit %>
+		<%= f.text_field :confirmation_limit, :type => "number", :max => 64 %>
 	<div>
 		<%= f.submit 'Create' %>
 	</div>

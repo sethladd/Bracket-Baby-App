@@ -32,6 +32,8 @@ GEM
       activesupport (~> 3.0.0)
     builder (2.1.2)
     daemons (1.1.0)
+    date_validator (0.5.8)
+      activemodel (>= 3.0.0)
     erubis (2.6.6)
       abstract (>= 1.0.0)
     eventmachine (0.12.10)
@@ -79,6 +81,7 @@ PLATFORMS
   ruby
 
 DEPENDENCIES
+  date_validator
   rack-openid
   rails (= 3.0.0)
   ruby-openid

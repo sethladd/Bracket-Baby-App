@@ -13,6 +13,8 @@ end
 gem 'ruby-openid'
 gem 'rack-openid'
 
+gem 'date_validator'
+
 # Use unicorn as the web server
 # gem 'unicorn'
 
