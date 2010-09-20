@@ -6,6 +6,5 @@ class Match < ActiveRecord::Base
   belongs_to :preceding_match1, :class_name => 'Match'
   belongs_to :preceding_match2, :class_name => 'Match'
   
-  validates :participant1_id, :participant2_id, :tournament_id,
-            :first_day, :last_day, :presence => true
+  validates :tournament_id, :first_day, :last_day, :presence => true
 end

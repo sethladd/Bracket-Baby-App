@@ -63,12 +63,21 @@ class Tournament < ActiveRecord::Base
   
   def start!
     Tournament.transaction do
-      confirmed_participants.in_groups_of(2).map{|g| g.compact}.select{|g| g.length == 2}.each do |group|
+      matches = confirmed_participants.sort_by{rand}.in_groups_of(2).map{|g| g.compact}.select{|g| g.length == 2}.map do |group|
         Match.create!(:participant1 => group.first,
                       :participant2 => group.last,
                       :tournament => self,
                       :first_day => Date.today,
                       :last_day => Date.today)
+      end
+      while matches.length > 1
+        matches = matches.in_groups_of(2).map do |group|
+          Match.create!(:preceding_match1 => group.first,
+                        :preceding_match2 => group.last,
+                        :first_day => group.first.first_day+1,
+                        :last_day => group.first.first_day+1,
+                        :tournament => self)
+        end
       end
     end
   end
