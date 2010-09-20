@@ -3,7 +3,8 @@ class Tournament < ActiveRecord::Base
   
   validates :name, :presence => true
   validates :starts_on, :ends_on, :date => {
-    :message => 'must be on or after today', :after_or_equal_to => Proc.new{Date.today} }
+    :message => 'must be on or after today', :after_or_equal_to => Proc.new{Date.today} },
+    :on => :create
   validates :ends_on, :date => {
     :message => 'must be on or after start date', :after_or_equal_to => :starts_on }
   
@@ -58,6 +59,18 @@ class Tournament < ActiveRecord::Base
   
   def participating?(user)
     !participants.where(:user_id => user.id).first.nil?
+  end
+  
+  def start!
+    Tournament.transaction do
+      confirmed_participants.in_groups_of(2).map{|g| g.compact}.select{|g| g.length == 2}.each do |group|
+        Match.create!(:participant1 => group.first,
+                      :participant2 => group.last,
+                      :tournament => self,
+                      :first_day => Date.today,
+                      :last_day => Date.today)
+      end
+    end
   end
   
   private

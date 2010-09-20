@@ -10,7 +10,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20100919063131) do
+ActiveRecord::Schema.define(:version => 20100920053007) do
 
   create_table "matches", :force => true do |t|
     t.integer  "participant1_id"
@@ -20,10 +20,16 @@ ActiveRecord::Schema.define(:version => 20100919063131) do
     t.datetime "finished_at"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.integer  "preceding_match1"
+    t.integer  "preceding_match2"
+    t.date     "last_day"
+    t.date     "first_day"
   end
 
   add_index "matches", ["participant1_id"], :name => "index_matches_on_participant1_id"
   add_index "matches", ["participant2_id"], :name => "index_matches_on_participant2_id"
+  add_index "matches", ["preceding_match1"], :name => "index_matches_on_preceding_match1"
+  add_index "matches", ["preceding_match2"], :name => "index_matches_on_preceding_match2"
   add_index "matches", ["tournament_id"], :name => "index_matches_on_tournament_id"
   add_index "matches", ["winner_id"], :name => "index_matches_on_winner_id"
 
