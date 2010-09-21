@@ -17,8 +17,8 @@
 </p>
 
 <ul>
-	<li><% if @tournament.started? %>Started<% else %>Starts<% end %> on: <%= @tournament.starts_on %></li>
-	<li><% if @tournament.ended? %>Ended<% else %>Ends<% end %> at midnight of: <%= @tournament.ends_on %></li>
+	<li><% if @tournament.started? %>Started<% else %>Starts<% end %> on: <%= @tournament.starts_at.in_time_zone(@tournament.time_zone) %></li>
+	<li><% if @tournament.ended? %>Ended<% else %>Ends<% end %> at midnight of: <%= @tournament.ends_at.in_time_zone(@tournament.time_zone) %></li>
 	<% if @tournament.can_join?(current_user) %>
 	<li><%= link_to 'Join this tournament', tournament_participants_path(@tournament), :method => :post %></li>
 	<% end %>

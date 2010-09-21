@@ -1,16 +1,17 @@
 class Tournament < ActiveRecord::Base
   has_many :participants, :include => :user, :dependent => :destroy
+  has_many :matches, :dependent => :destroy
   
-  validates :name, :presence => true
-  validates :starts_on, :ends_on, :date => {
+  validates :name, :starts_at, :ends_at, :time_zone, :presence => true
+  validates :starts_at, :ends_at, :date => {
     :message => 'must be on or after today', :after_or_equal_to => Proc.new{Date.today} },
     :on => :create
-  validates :ends_on, :date => {
-    :message => 'must be on or after start date', :after_or_equal_to => :starts_on }
+  validates :ends_at, :date => {
+    :message => 'must be on or after start date', :after_or_equal_to => :starts_at }
   
-  scope :in_progress, lambda { where('starts_on <= ? and ends_on >= ?', Date.today, Date.today) }
-  scope :upcoming, lambda { where('starts_on > ?', Date.today) }
-  scope :finished, lambda { where('ends_at < ?', Date.today) }
+  scope :in_progress, lambda { where('starts_at <= ? and ends_at > ?', Time.now.utc, Time.now.utc) }
+  scope :upcoming, lambda { where('starts_at > ?', Time.now.utc) }
+  scope :finished, lambda { where('ends_at <= ?', Time.now.utc) }
   
   def confirmed_participants
     participants.order('created_at').limit(confirmation_limit)
@@ -37,20 +38,16 @@ class Tournament < ActiveRecord::Base
   end
   
   def started?
-    (starts_on <= Date.today)
+    (starts_at <= Date.today)
   end
   
   def ended?
-    (ends_on <= Date.today)
+    (ends_at <= Date.today)
   end
   
   def in_progress?
-    today = Date.today
-    (starts_on <= today && ends_on >= today)
-  end
-  
-  def finished?
-    (ends_onDate.today < Date.today)
+    now = Time.now.utc
+    (starts_at <= now && ends_at > now)
   end
   
   def upcoming?
@@ -67,15 +64,15 @@ class Tournament < ActiveRecord::Base
         Match.create!(:participant1 => group.first,
                       :participant2 => group.last,
                       :tournament => self,
-                      :first_day => Date.today,
-                      :last_day => Date.today)
+                      :starts_at => self.starts_at,
+                      :ends_at => self.starts_at + 1.day)
       end
       while matches.length > 1
         matches = matches.in_groups_of(2).map do |group|
           Match.create!(:preceding_match1 => group.first,
                         :preceding_match2 => group.last,
-                        :first_day => group.first.first_day+1,
-                        :last_day => group.first.first_day+1,
+                        :starts_at => group.first.ends_at,
+                        :ends_at => group.first.ends_at + 1.day,
                         :tournament => self)
         end
       end
@@ -86,7 +83,7 @@ class Tournament < ActiveRecord::Base
   
   def end_date_is_greater_than_start_date
     if ends_at < starts_at
-      errors.add(:ends_at, "must be on or after the start date")
+      errors.add(:ends_at, "must be on or after 'starts at'")
     end
   end
 end
