@@ -4,6 +4,10 @@ BracketBabyApp::Application.routes.draw do
     resources :participants
   end
   
+  resources :users do
+    resource :time_zone
+  end
+  
   resource :session
   
   root :to => 'home#index'

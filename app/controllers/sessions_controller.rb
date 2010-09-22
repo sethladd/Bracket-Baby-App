@@ -19,9 +19,11 @@ class SessionsController < ApplicationController
         ax = OpenID::AX::FetchResponse.from_success_response(openid)
         user = User.where(:identifier_url => openid.display_identifier).first
         user ||= User.create!(:identifier_url => openid.display_identifier,
-                              :email => ax.get_single('http://axschema.org/contact/email'))
+                              :email => ax.get_single('http://axschema.org/contact/email'),
+                              :first_name => ax.get_single('http://axschema.org/namePerson/first'),
+                              :last_name => ax.get_single('http://axschema.org/namePerson/last'))
         session[:user_id] = user.id
-        redirect_to(session[:redirect_to] || root_path)
+        redirect_to(user_time_zone_path(user))
       when :failure
         render :action => 'problem'
       end

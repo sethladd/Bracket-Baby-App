@@ -10,7 +10,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20100921044831) do
+ActiveRecord::Schema.define(:version => 20100922053541) do
 
   create_table "matches", :force => true do |t|
     t.integer  "participant1_id"
@@ -64,6 +64,9 @@ ActiveRecord::Schema.define(:version => 20100921044831) do
     t.string   "email"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.string   "time_zone"
+    t.string   "first_name"
+    t.string   "last_name"
   end
 
   add_index "users", ["identifier_url"], :name => "index_users_on_identifier_url", :unique => true
