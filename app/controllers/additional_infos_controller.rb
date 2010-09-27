@@ -1,4 +1,4 @@
-class TimeZonesController < ApplicationController
+class AdditionalInfosController < ApplicationController
   
   def show
     @user = User.find(params[:user_id])

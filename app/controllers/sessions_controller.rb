@@ -23,7 +23,7 @@ class SessionsController < ApplicationController
                               :first_name => ax.get_single('http://axschema.org/namePerson/first'),
                               :last_name => ax.get_single('http://axschema.org/namePerson/last'))
         session[:user_id] = user.id
-        redirect_to(user_time_zone_path(user))
+        redirect_to(user_additional_info_path(user))
       when :failure
         render :action => 'problem'
       end

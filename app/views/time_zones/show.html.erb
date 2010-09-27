@@ -1,7 +1,0 @@
-<h1><%= @title = "Pick a Time Zone" %></h1>
-
-<%= form_for @user, :url => user_time_zone_path(@user) do |f| %>
-	<%= f.label :time_zone %>
-	<%= f.time_zone_select(:time_zone, ActiveSupport::TimeZone.us_zones, :default => "Pacific Time (US & Canada)") %>
-	<%= f.submit %>
-<% end %>

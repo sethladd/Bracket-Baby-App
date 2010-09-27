@@ -1,0 +1,21 @@
+<h1><%= @title = "Additional Info" %></h1>
+
+<%= form_for @user, :url => user_additional_info_path(@user) do |f| %>
+	<% if @user.first_name.blank? %>
+	<div>
+		<%= f.label :first_name %>
+		<%= f.text_field :first_name %>
+	</div>
+	<% end %>
+	<% if @user.last_name.blank? %>
+	<div>
+		<%= f.label :last_name %>
+		<%= f.text_field :last_name %>
+	</div>
+	<% end %>
+	<div>
+	<%= f.label :time_zone %>
+	<%= f.time_zone_select(:time_zone, ActiveSupport::TimeZone.us_zones, :default => "Pacific Time (US & Canada)") %>
+	</div>
+	<%= f.submit %>
+<% end %>

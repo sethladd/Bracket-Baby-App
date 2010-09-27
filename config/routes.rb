@@ -5,7 +5,7 @@ BracketBabyApp::Application.routes.draw do
   end
   
   resources :users do
-    resource :time_zone
+    resource :additional_info
   end
   
   resource :session

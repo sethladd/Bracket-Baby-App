@@ -10,32 +10,38 @@
 <p><%= @tournament.description %></p>
 
 <p>
-	Currently <%= @tournament.participants_count %> players interested,
-	<%= @tournament.confirmed_participants.size %> confirmed and
-	registered (out of a maximum of <%= @tournament.confirmation_limit %>),
-	and <%= @tournament.waitlisted_participants.size %> on the waitlist.
+	Currently <%= @tournament.participants_count %> players participating.
 </p>
 
 <ul>
-	<li><% if @tournament.started? %>Started<% else %>Starts<% end %> on: <%= @tournament.starts_at.in_time_zone(@tournament.time_zone) %></li>
-	<li><% if @tournament.ended? %>Ended<% else %>Ends<% end %> at midnight of: <%= @tournament.ends_at.in_time_zone(@tournament.time_zone) %></li>
+	<li><% if @tournament.started? %>Started<% else %>Starts<% end %> on: <%= @tournament.starts_at.in_time_zone(current_user.time_zone) %></li>
+	<li><% if @tournament.ended? %>Ended<% else %>Ends<% end %> at midnight of: <%= @tournament.ends_at.in_time_zone(current_user.time_zone) %></li>
 	<% if @tournament.can_join?(current_user) %>
 	<li><%= link_to 'Join this tournament', tournament_participants_path(@tournament), :method => :post %></li>
 	<% end %>
 </ul>
 
-<h2>Confirmed Participants</h2>
+<h2>Participants</h2>
 
 <ul>
-<% @tournament.confirmed_participants.each do |participant| %>
+<% @tournament.participants.each do |participant| %>
 	<%= render :partial => 'participant_list_item', :locals => {:participant => participant} %>
 <% end %>
 </ul>
 
-<h2>Waitlisted Participants</h2>
-
-<ul>
-<% @tournament.waitlisted_participants.each do |participant| %>
-	<%= render :partial => 'participant_list_item', :locals => {:participant => participant} %>
+<% if @tournament.started? %>
+<% @tournament.brackets.each do |bracket| %>
+<table>
+	<thead>
+		<tr>
+			<% @tournament.number_of_rounds.times do |round| %>
+			<th>Round <%= round+1 %></th>
+			<% end %>
+		</tr>
+	</thead>
+	<tbody>
+		
+	</tbody>
+</table>
 <% end %>
-</ul>
+<% end %>
