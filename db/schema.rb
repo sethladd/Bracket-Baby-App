@@ -10,12 +10,13 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20100927155536) do
+ActiveRecord::Schema.define(:version => 20100927231549) do
 
   create_table "brackets", :force => true do |t|
     t.integer  "tournament_id"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.integer  "number_of_rounds"
   end
 
   add_index "brackets", ["tournament_id"], :name => "index_brackets_on_tournament_id"

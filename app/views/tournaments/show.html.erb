@@ -29,19 +29,10 @@
 <% end %>
 </ul>
 
-<% if @tournament.started? %>
 <% @tournament.brackets.each do |bracket| %>
-<table>
-	<thead>
-		<tr>
-			<% @tournament.number_of_rounds.times do |round| %>
-			<th>Round <%= round+1 %></th>
-			<% end %>
-		</tr>
-	</thead>
+<table border="1">
 	<tbody>
-		
+		<%= display_bracket(bracket) %>
 	</tbody>
 </table>
-<% end %>
 <% end %>

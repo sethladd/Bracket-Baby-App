@@ -17,20 +17,20 @@
 		<%= f.time_zone_select(:time_zone, ActiveSupport::TimeZone.us_zones, :default => "Pacific Time (US & Canada)") %>
 	</div>
 	<div>
-		<%= f.label :starts_at %> (in time zone specific above)
+		<%= f.label :starts_at %> (in time zone specified above)
 		<%= f.datetime_select :starts_at %>
 	</div>
 	<div>
-		<%= f.label :ends_at %> (in time zone specific above)
+		<%= f.label :ends_at %> (in time zone specified above)
 		<%= f.datetime_select :ends_at %>
 	</div>
 	<div>
-		<%= f.label :match_length %>
-		<%= f.text_field :match_length, :type => "number", :placeholder => '(in hours)' %>
+		<%= f.label :match_length %> (in hours)
+		<%= f.text_field :match_length, :type => "number" %>
 	</div>
 	<div>
 		<%= f.label :minimum_bracket_size %>
-		<%= f.select :minimum_bracket_size, [4,8,16,32,64,128,256] %>
+		<%= f.select :minimum_bracket_size, [2,4,8,16,32,64,128,256] %>
 	</div>
 	<div>
 		<%= f.submit 'Create' %>

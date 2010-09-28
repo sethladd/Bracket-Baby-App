@@ -56,7 +56,7 @@ class Tournament < ActiveRecord::Base
     Tournament.transaction do
       # TODO: stream from db
       participants.order('created_at').in_groups_of(max_participants_per_bracket).each do |g|
-        # remove any nils
+        # remove any nils, the last group might have some
         g.compact!
       end.select do |g|
         # ensure we have a quorum
@@ -75,7 +75,7 @@ class Tournament < ActiveRecord::Base
       end.each do |match_participants|
         # place into brackets
         bracket = Bracket.create!(:tournament => self)
-        round_num = 1
+        round_num = 0
         matches = match_participants.in_groups_of(2).map do |group|
           Match.create!(:participant1 => group.first,
                         :participant2 => group.last,
@@ -95,6 +95,7 @@ class Tournament < ActiveRecord::Base
                           :round => round_num)
           end
         end
+        bracket.update_attributes!(:number_of_rounds => round_num+1)
       end
     end
   end
