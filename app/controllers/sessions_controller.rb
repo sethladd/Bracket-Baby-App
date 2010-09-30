@@ -23,7 +23,11 @@ class SessionsController < ApplicationController
                               :first_name => ax.get_single('http://axschema.org/namePerson/first'),
                               :last_name => ax.get_single('http://axschema.org/namePerson/last'))
         session[:user_id] = user.id
-        redirect_to(user_additional_info_path(user))
+        if user.first_name.blank?
+          redirect_to(user_additional_info_path(user))
+        else
+          redirect_to(session[:redirect_to] || root_path)
+        end
       when :failure
         render :action => 'problem'
       end
