@@ -1,17 +1,9 @@
-<h1>BracketBaby App</h1>
-
-<p>Easy online tournaments for games.</p>
+<h1>Bracket Baby - <%= @title = "Dashboard" %></h1>
 
 <ul>
-	<li>My Dashboard</li>
-	<li>Join Upcoming Tournaments</li>
-	<li>Run a Tournament</li>
-	<li>Follow In-Progress Tournaments</li>
-</ul>
-
-<ul>
-	<li><%= link_to 'Create a Tournament', new_tournament_path %></li>
-	<li><%= link_to 'List all Tournaments', tournaments_path %></li>
+	<li><%= link_to 'Join Upcoming Tournaments', upcoming_tournaments_path %></li>
+	<li><%= link_to 'Follow In-Progress Tournaments', in_progress_tournaments_path %></li>
+	<li><%= link_to 'Create a Tournament', new_tournament_path %> (requires subscription)</li>
 	<% if signed_in? %>
 	<li><%= link_to 'Sign Out', session_path, :method => :delete %>
 	<% end %>

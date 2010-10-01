@@ -1,5 +1,4 @@
 class TournamentsController < ApplicationController
-  before_filter :ensure_signed_in
   
   def new
     @tournament = Tournament.new
@@ -35,4 +34,5 @@ class TournamentsController < ApplicationController
   def finished
     @tournaments = Tournament.finished
   end
+  
 end

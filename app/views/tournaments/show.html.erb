@@ -14,22 +14,15 @@
 </p>
 
 <ul>
-	<li><% if @tournament.started? %>Started<% else %>Starts<% end %> on: <%= @tournament.starts_at.in_time_zone(current_user.time_zone) %></li>
-	<li><% if @tournament.ended? %>Ended<% else %>Ends<% end %> at midnight of: <%= @tournament.ends_at.in_time_zone(current_user.time_zone) %></li>
+	<li><% if @tournament.started? %>Started<% else %>Starts<% end %> at: <%= @tournament.starts_at.in_time_zone(current_user.time_zone) %></li>
+	<li><% if @tournament.ended? %>Ended<% else %>Ends<% end %> at: <%= @tournament.ends_at.in_time_zone(current_user.time_zone) %></li>
 	<% if @tournament.can_join?(current_user) %>
 	<li><%= link_to 'Join this tournament', tournament_participants_path(@tournament), :method => :post %></li>
 	<% end %>
 </ul>
 
-<h2>Participants</h2>
-
-<ul>
-<% @tournament.participants.each do |participant| %>
-	<%= render :partial => 'participant_list_item', :locals => {:participant => participant} %>
-<% end %>
-</ul>
-
-<% @tournament.brackets.each do |bracket| %>
+<% @tournament.brackets.each_with_index do |bracket, i| %>
+<h2>Bracket <%= i+1 %></h2>
 <table border="1">
 	<tbody>
 		<%= display_bracket(bracket) %>

@@ -1,1 +1,10 @@
-<li><%= link_to tournament.name, tournament %></li>
+<li>
+<%= link_to tournament.name, tournament %> -
+<% if tournament.started? %> Started <% else %> Starts in <% end %>
+<%= distance_of_time_in_words(Time.now.utc, tournament.starts_at) %>
+<% if tournament.started? %> ago <% end %> -
+
+<% if tournament.ended? %>Ended <% else %> Ends in <% end %>
+<%= distance_of_time_in_words(Time.now.utc, tournament.ends_at) %>
+<% if tournament.ended? %> ago <% end %>
+</li>

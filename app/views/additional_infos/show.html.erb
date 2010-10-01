@@ -1,5 +1,7 @@
 <h1><%= @title = "Additional Info" %></h1>
 
+<%= error_messages_for @user %>
+
 <%= form_for @user, :url => user_additional_info_path(@user) do |f| %>
 	<% if @user.first_name.blank? %>
 	<div>

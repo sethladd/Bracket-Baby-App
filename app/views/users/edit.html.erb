@@ -1,0 +1,21 @@
+<h1><%= @title = 'My Info' %></h1>
+
+<%= error_messages_for @user %>
+
+<%= form_for(@user) do |f| %>
+	<div>
+		<%= f.label :first_name %>
+		<%= f.text_field :first_name %>
+	</div>
+	<div>
+		<%= f.label :last_name %>
+		<%= f.text_field :last_name %>
+	</div>
+	<div>
+		<%= f.label :time_zone %>
+		<%= f.time_zone_select(:time_zone, ActiveSupport::TimeZone.us_zones, :default => "Pacific Time (US & Canada)") %>
+	</div>
+	<div>
+		<%= f.submit 'Update' %>
+	</div>
+<% end %>

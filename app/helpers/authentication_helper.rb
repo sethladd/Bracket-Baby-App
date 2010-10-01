@@ -8,8 +8,13 @@ module AuthenticationHelper
   end
   
   def ensure_signed_in
+    if ENV['OFFLINE']
+      session[:user_id] = 1
+      return
+    end
+    
     unless signed_in?
-      session[:redirect_to] = request.request_uri
+      session[:redirect_to] = request.fullpath
       redirect_to(new_session_path)
     end
   end

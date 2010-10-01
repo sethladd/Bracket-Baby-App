@@ -11,5 +11,11 @@
 
 <%= yield %>
 
+<footer>
+	<ul>
+		<li><%= link_to 'Home', root_path %></li>
+		<li><%= link_to 'My Info', edit_user_path(current_user) %></li>
+	</ul>
+</footer>
 </body>
 </html>
