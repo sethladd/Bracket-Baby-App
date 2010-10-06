@@ -15,6 +15,8 @@ gem 'rack-openid'
 
 gem 'date_validator'
 
+gem 'httparty'
+
 # Use unicorn as the web server
 # gem 'unicorn'
 
