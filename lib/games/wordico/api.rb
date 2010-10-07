@@ -7,6 +7,7 @@ module Games
       base_uri 'http://play.wordico.com/api/v1'
       
       def game_state(game_uuid)
+        game_uuid = extract_uuid(game_uuid)
         self.class.get('/games/' + game_uuid)
       end
       
@@ -16,14 +17,21 @@ module Games
           :boardName => board_name,
           :rackSize => rack_size,
           :timeLimit => time_limit,
-          :players => users.map{|u| {:openId => u.identifier_url, :email => u.email}}
+          :players => users.map{|u| {:email => u.email}}
         }
-        puts create_game.to_json
         response = self.class.post('/games', :body => create_game.to_json)
+        response.headers['Location']
       end
       
       def delete_game(game_uuid)
+        game_uuid = extract_uuid(game_uuid)
         self.class.delete('/games/' + game_uuid)
+      end
+      
+      private
+      
+      def extract_uuid(uuid_or_uri)
+        uuid_or_uri.split('/').last if uuid_or_uri =~ /^http/
       end
     end
   end

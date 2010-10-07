@@ -10,7 +10,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20100927231549) do
+ActiveRecord::Schema.define(:version => 20101007071415) do
 
   create_table "brackets", :force => true do |t|
     t.integer  "tournament_id"
@@ -21,9 +21,18 @@ ActiveRecord::Schema.define(:version => 20100927231549) do
 
   add_index "brackets", ["tournament_id"], :name => "index_brackets_on_tournament_id"
 
+  create_table "match_players", :force => true do |t|
+    t.integer  "match_id"
+    t.integer  "user_id"
+    t.integer  "score",      :default => 0
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  add_index "match_players", ["match_id"], :name => "index_match_players_on_match_id"
+  add_index "match_players", ["user_id"], :name => "index_match_players_on_user_id"
+
   create_table "matches", :force => true do |t|
-    t.integer  "participant1_id"
-    t.integer  "participant2_id"
     t.integer  "winner_id"
     t.datetime "finished_at"
     t.datetime "created_at"
@@ -34,11 +43,13 @@ ActiveRecord::Schema.define(:version => 20100927231549) do
     t.datetime "starts_at"
     t.integer  "bracket_id"
     t.integer  "round"
+    t.string   "external_game_uri"
+    t.datetime "started_at"
+    t.datetime "ended_at"
+    t.integer  "match_players_count", :default => 0
   end
 
   add_index "matches", ["bracket_id"], :name => "index_matches_on_bracket_id"
-  add_index "matches", ["participant1_id"], :name => "index_matches_on_participant1_id"
-  add_index "matches", ["participant2_id"], :name => "index_matches_on_participant2_id"
   add_index "matches", ["preceding_match1_id"], :name => "index_matches_on_preceding_match1"
   add_index "matches", ["preceding_match2_id"], :name => "index_matches_on_preceding_match2"
   add_index "matches", ["winner_id"], :name => "index_matches_on_winner_id"
@@ -61,10 +72,10 @@ ActiveRecord::Schema.define(:version => 20100927231549) do
     t.datetime "ends_at"
     t.datetime "created_at"
     t.datetime "updated_at"
-    t.string   "time_zone"
     t.integer  "participants_count",   :default => 0
     t.integer  "match_length"
     t.integer  "minimum_bracket_size"
+    t.integer  "maximum_bracket_size", :default => 0
   end
 
   add_index "tournaments", ["ends_at"], :name => "index_tournaments_on_ends_at"

@@ -5,6 +5,8 @@ module AuthenticationHelper
   
   def current_user
     @current_user ||= User.find(session[:user_id])
+  rescue
+    session[:user_id] = nil
   end
   
   def ensure_signed_in

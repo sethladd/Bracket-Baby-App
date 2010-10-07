@@ -10,7 +10,9 @@
 <p><%= @tournament.description %></p>
 
 <p>
-	Currently <%= @tournament.participants_count %> players participating.
+	Currently <%= @tournament.participants_count %> players participating in the tournament.
+	With a bracket size of <%= @tournament.max_participants_per_bracket %> players,
+	we're able to fill <%= @tournament.estimated_number_of_brackets %> brackets.
 </p>
 
 <ul>

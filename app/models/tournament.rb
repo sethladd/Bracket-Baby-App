@@ -3,7 +3,7 @@ class Tournament < ActiveRecord::Base
   has_many :brackets, :dependent => :destroy
   has_many :matches, :through => :brackets
   
-  validates :name, :starts_at, :ends_at, :time_zone, :match_length, :presence => true
+  validates :name, :starts_at, :ends_at, :match_length, :presence => true
   validates :starts_at, :ends_at, :date => {
     :message => 'must be on or after today', :after_or_equal_to => Proc.new{Date.today} },
     :on => :create
@@ -16,11 +16,15 @@ class Tournament < ActiveRecord::Base
   scope :finished, lambda { where('ends_at <= ?', Time.now.utc) }
   
   def max_participants_per_bracket
-    (2 ** max_number_of_rounds)
+    (maximum_bracket_size > 0) ? maximum_bracket_size : (2 ** max_number_of_rounds)
   end
   
   def max_number_of_rounds
     ((ends_at - starts_at) / 60 / 60 / match_length).floor
+  end
+  
+  def estimated_number_of_brackets
+    self.participants_count / max_participants_per_bracket
   end
       
   def can_join?(user)
@@ -74,25 +78,29 @@ class Tournament < ActiveRecord::Base
         g.sort_by{rand}
       end.each do |match_participants|
         # place into brackets
-        bracket = Bracket.create!(:tournament => self)
+        bracket = self.brackets.create!
         round_num = 0
-        matches = match_participants.in_groups_of(2).map do |group|
-          Match.create!(:participant1 => group.first,
-                        :participant2 => group.last,
-                        :bracket => bracket,
-                        :starts_at => self.starts_at,
-                        :ends_at => self.starts_at + match_length.hours,
-                        :round => round_num)
+        matches = match_participants.in_groups_of(2).map do |participants|
+          match = bracket.matches.create!(
+            :starts_at => self.starts_at,
+            :ends_at => self.starts_at + match_length.hours,
+            :round => round_num
+          )
+          participants.each do |participant|
+            match.match_players.create!(:user => participant.user)
+          end
+          match
         end
         while matches.length > 1
           round_num += 1
           matches = matches.in_groups_of(2).map do |group|
-            Match.create!(:preceding_match1 => group.first,
-                          :preceding_match2 => group.last,
-                          :starts_at => group.first.ends_at,
-                          :ends_at => group.first.ends_at + match_length.hours,
-                          :bracket => bracket,
-                          :round => round_num)
+            bracket.matches.create!(
+              :preceding_match1 => group.first,
+              :preceding_match2 => group.last,
+              :starts_at => group.first.ends_at,
+              :ends_at => group.first.ends_at + match_length.hours,
+              :round => round_num
+            )
           end
         end
         bracket.update_attributes!(:number_of_rounds => round_num+1)

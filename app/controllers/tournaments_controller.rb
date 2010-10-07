@@ -5,17 +5,11 @@ class TournamentsController < ApplicationController
   end
   
   def create
-    old_time_zone = Time.zone
-    begin
-      Time.zone = params[:tournament][:time_zone]
-      @tournament = Tournament.new(params[:tournament])
-      if @tournament.save
-        redirect_to @tournament
-      else
-        render :action => :new
-      end
-    ensure
-      Time.zone = old_time_zone
+    @tournament = Tournament.new(params[:tournament])
+    if @tournament.save
+      redirect_to @tournament
+    else
+      render :action => :new
     end
   end
   
