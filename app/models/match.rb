@@ -11,7 +11,7 @@ class Match < ActiveRecord::Base
     where(:external_game_uri => nil).
     where('starts_at <= ?', Time.now.utc).
     where(:started_at => nil).
-    where(:match_player_count => 2)
+    where(:match_players_count => 2)
   }
   
   scope :in_progress, where('started_at is not null AND ended_at is null')

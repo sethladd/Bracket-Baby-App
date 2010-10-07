@@ -16,7 +16,11 @@ module Games
         end
         
         # start any new matches
-        
+        Match.ready_to_start.each do |match|
+          user_emails = match.match_players.map{|mp| {:email = mp.user.email}}
+          external_game_uri = api.create_game(user_emails)
+          match.start!(external_game_uri)
+        end
       end
     end
   end

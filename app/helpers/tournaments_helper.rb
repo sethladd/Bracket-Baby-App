@@ -18,17 +18,24 @@ module TournamentsHelper
     output = "<td"
     (output << " rowspan=\"#{2**round}\"") if round > 0
     output << ">\n"
-    emails = match.match_players.map{|mp| mp.user.email}.sort
-    output << display_participant(emails.first)
-    output << display_participant(emails.last)
+    players = match.match_players.sort_by{|mp| mp.id}
+    output << display_player_and_score(players.first)
+    output << display_player_and_score(players.last)
     output << "</td>\n"
     not_visited_matches.delete(match)
     output << display_match(not_visited_matches.detect{|m| m.preceded_by?(match)}, not_visited_matches, round+1)
     output
   end
   
-  def display_participant(email)
-    "<div>" + h(email || 'TBD') + "</div>\n"
+  def display_player_and_score(player)
+    "<div>" +
+    if player
+      h(player.nickname) +
+      ', Score: ' + player.score.to_s
+    else
+      'TBD'
+    end +
+    "</div>\n"
   end
   
 end
