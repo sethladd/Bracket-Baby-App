@@ -10,7 +10,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20101007071415) do
+ActiveRecord::Schema.define(:version => 20101008015659) do
 
   create_table "brackets", :force => true do |t|
     t.integer  "tournament_id"
@@ -89,6 +89,7 @@ ActiveRecord::Schema.define(:version => 20101007071415) do
     t.string   "time_zone"
     t.string   "first_name"
     t.string   "last_name"
+    t.boolean  "admin",          :default => false
   end
 
   add_index "users", ["identifier_url"], :name => "index_users_on_identifier_url", :unique => true
