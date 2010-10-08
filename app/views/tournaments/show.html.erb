@@ -18,11 +18,15 @@
 <ul>
 	<li>
 		<% if @tournament.started? %>Started<% else %>Starts<% end %> at: <%= @tournament.starts_at %>
-		(in <%= distance_of_time_in_words(Time.now.utc, @tournament.starts_at) %>)
+		(<% unless @tournament.started? %>in <% end %><%=
+			distance_of_time_in_words(Time.now.utc, @tournament.starts_at) %><%
+			if @tournament.started? %> ago<% end %>)
 	</li>
 	<li>
 		<% if @tournament.ended? %>Ended<% else %>Ends<% end %> at: <%= @tournament.ends_at %>
-		(in <%= distance_of_time_in_words(Time.now.utc, @tournament.ends_at) %>)
+		(<% unless @tournament.ended? %>in <% end %><%=
+			distance_of_time_in_words(Time.now.utc, @tournament.ends_at) %><%
+			if @tournament.ended? %> ago<% end %>)
 	</li>
 	<% if @tournament.can_join?(current_user) %>
 	<li><%= link_to 'Join this tournament', tournament_participants_path(@tournament), :method => :post %></li>
