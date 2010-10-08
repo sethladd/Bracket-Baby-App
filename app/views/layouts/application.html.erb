@@ -16,6 +16,7 @@
 		<li><%= link_to 'Home', root_path %></li>
 		<li><%= link_to 'My Info', edit_user_path(current_user) %></li>
 	</ul>
+	<p>Logged in as <%= current_user.email %></p>
 </footer>
 </body>
 </html>
