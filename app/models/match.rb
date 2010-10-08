@@ -5,7 +5,7 @@ class Match < ActiveRecord::Base
   belongs_to :preceding_match1, :class_name => 'Match'
   belongs_to :preceding_match2, :class_name => 'Match'
   
-  validates :bracket_id, :starts_at, :round, :ends_at, :presence => true
+  validates :bracket_id, :round, :match_length, :presence => true
   
   scope :ready_to_start, lambda {
     where(:external_game_uri => nil).
@@ -25,7 +25,12 @@ class Match < ActiveRecord::Base
   end
   
   def start!(external_game_uri)
-    self.update_attributes!(:external_game_uri => external_game_uri, :started_at => Time.now.utc)
+    now = Time.now.utc
+    self.update_attributes!(
+      :external_game_uri => external_game_uri,
+      :started_at => now,
+      :ends_at => now + match_length.hours
+    )
   end
   
   def update_game_state!(game_state)

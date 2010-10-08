@@ -10,7 +10,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20101008015659) do
+ActiveRecord::Schema.define(:version => 20101008032317) do
 
   create_table "brackets", :force => true do |t|
     t.integer  "tournament_id"
@@ -47,6 +47,7 @@ ActiveRecord::Schema.define(:version => 20101008015659) do
     t.datetime "started_at"
     t.datetime "ended_at"
     t.integer  "match_players_count", :default => 0
+    t.integer  "match_length"
   end
 
   add_index "matches", ["bracket_id"], :name => "index_matches_on_bracket_id"
@@ -76,6 +77,8 @@ ActiveRecord::Schema.define(:version => 20101008015659) do
     t.integer  "match_length"
     t.integer  "minimum_bracket_size"
     t.integer  "maximum_bracket_size", :default => 0
+    t.datetime "started_at"
+    t.datetime "ended_at"
   end
 
   add_index "tournaments", ["ends_at"], :name => "index_tournaments_on_ends_at"

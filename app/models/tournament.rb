@@ -87,7 +87,7 @@ class Tournament < ActiveRecord::Base
           match_starts_at = self.starts_at < now ? now : self.starts_at
           match = bracket.matches.create!(
             :starts_at => match_starts_at,
-            :ends_at => match_starts_at + match_length.hours,
+            :match_length => match_length,
             :round => round_num
           )
           participants.each do |participant|
@@ -101,8 +101,7 @@ class Tournament < ActiveRecord::Base
             bracket.matches.create!(
               :preceding_match1 => group.first,
               :preceding_match2 => group.last,
-              :starts_at => group.first.ends_at,
-              :ends_at => group.first.ends_at + match_length.hours,
+              :match_length => match_length,
               :round => round_num
             )
           end
