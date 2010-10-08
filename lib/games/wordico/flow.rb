@@ -9,6 +9,11 @@ module Games
       end
       
       def hourly
+        # start any tournaments
+        Tournament.ready_to_start.each do |tournament|
+          tournament.start!
+        end
+        
         # update all in progress matches
         Match.in_progress.each do |match|
           game_state = @api.game_state(match.external_game_uri)

@@ -14,6 +14,8 @@ class Tournament < ActiveRecord::Base
   scope :in_progress, lambda { where('starts_at <= ? and ends_at > ?', Time.now.utc, Time.now.utc) }
   scope :upcoming, lambda { where('starts_at > ?', Time.now.utc) }
   scope :finished, lambda { where('ends_at <= ?', Time.now.utc) }
+  scope :ready_to_start, lambda { in_progress.where('started_at is null') }
+  scope :ready_to_end, lambda { finished.where('ended_at is null') }
   
   def max_participants_per_bracket
     (maximum_bracket_size > 0) ? maximum_bracket_size : (2 ** max_number_of_rounds)
@@ -81,9 +83,11 @@ class Tournament < ActiveRecord::Base
         bracket = self.brackets.create!
         round_num = 0
         matches = match_participants.in_groups_of(2).map do |participants|
+          now = Time.now.utc
+          match_starts_at = self.starts_at < now ? now : self.starts_at
           match = bracket.matches.create!(
-            :starts_at => self.starts_at,
-            :ends_at => self.starts_at + match_length.hours,
+            :starts_at => match_starts_at,
+            :ends_at => match_starts_at + match_length.hours,
             :round => round_num
           )
           participants.each do |participant|
@@ -105,6 +109,7 @@ class Tournament < ActiveRecord::Base
         end
         bracket.update_attributes!(:number_of_rounds => round_num+1)
       end
+      self.update_attributes!(:started_at => Time.now.utc)
     end
   end
   
