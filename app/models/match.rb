@@ -25,7 +25,7 @@ class Match < ActiveRecord::Base
   end
   
   def start!(external_game_uri)
-    self.update_attributes!(:external_name_uri => external_game_uri, :started_at => Time.now.utc)
+    self.update_attributes!(:external_game_uri => external_game_uri, :started_at => Time.now.utc)
   end
   
   def update_game_state!(game_state)
