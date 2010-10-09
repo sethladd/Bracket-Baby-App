@@ -6,6 +6,8 @@ class Registration < ActiveRecord::Base
   
   attr_protected :confirmed
   
+  scope :confirmed, where(:confirmed => true)
+  
   def confirm!
     self.confirmed = true
     self.save!

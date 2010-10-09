@@ -39,7 +39,7 @@ class Match < ActiveRecord::Base
   
   def should_start?
     external_game_uri.nil? &&
-    should_start_at <= Time.not.utc &&
+    should_start_at <= Time.now.utc &&
     started_at.nil? &&
     match_players_count == 2
   end
