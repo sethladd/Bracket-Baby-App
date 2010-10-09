@@ -5,7 +5,11 @@
 
 	<% if match.started? %>
 		<div>
-			Ending in <%= distance_of_time_in_words(Time.now, match.should_end_at) %>
+			<% if match.ended? %>
+				Ending in <%= distance_of_time_in_words(Time.now, match.should_end_at) %>
+			<% else %>
+				Ended <%= distance_of_time_in_words(Time.now, match.should_end_at) %> ago
+			<% end %>
 		</div>
 		<div>
 			Updated:
