@@ -70,6 +70,10 @@ class Tournament < ActiveRecord::Base
     registrations.where(:user_id => user.id).first
   end
   
+  def finished?
+    brackets.all?{|b| b.finished?}
+  end
+  
   def start!
     Tournament.transaction do
       # TODO: stream from db

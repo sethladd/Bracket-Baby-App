@@ -1,6 +1,6 @@
 class Match < ActiveRecord::Base
   has_many   :match_players, :dependent => :destroy
-  belongs_to :bracket
+  belongs_to :bracket, :counter_cache => true
   belongs_to :winner, :class_name => 'User'
   belongs_to :preceding_match1, :class_name => 'Match'
   belongs_to :preceding_match2, :class_name => 'Match'
@@ -17,6 +17,8 @@ class Match < ActiveRecord::Base
   scope :started, where('started_at is not null')
   scope :in_progress, where('started_at is not null').where('ended_at is null')
   scope :ended, where('ended_at is not null')
+  
+  scope :finals_are_finished, where(:finals => true).where('ended_at is not null')
   
   def next_match
     Match.where('preceding_match1_id = ? OR preceding_match2_id = ?', self.id, self.id).first
