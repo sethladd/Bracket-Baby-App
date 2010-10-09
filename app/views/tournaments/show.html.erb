@@ -13,28 +13,42 @@
 
 <p><%= @tournament.description %></p>
 
-<p>
-	Currently <%= @tournament.participants_count %> players participating in the tournament.
-	With a bracket size of <%= @tournament.max_participants_per_bracket %> players,
-	we're able to fill <%= @tournament.estimated_number_of_brackets %> brackets.
-</p>
+<ul>
+	<li>
+		There are <%= @tournament.registrations_count %> players registered for this tournament.
+	</li>
+	<li>
+		<% if @tournament.registered?(current_user) %>
+			You are registered!
+			<% if @tournament.can_quit?(current_user) %>
+				<%= link_to 'Cancel registration',
+					tournament_registration_path(@tournament, @tournament.registration_for_user(current_user)),
+						:method => :delete, :confirm => 'Are you sure?' %>
+			<% end %>
+		<% else %>
+			<% if @tournament.can_join?(current_user) %>
+				<%= link_to 'Join this tournament', tournament_registrations_path(@tournament), :method => :post %>
+			<% end %>
+		<% end %>
+	</li>
+
+	<li>
+		The minimum bracket size is <%= @tournament.minimum_bracket_size %>, which means
+		<% if @tournament.quorum_for_at_least_one_bracket? %>
+		at least one bracket will be run!
+		<% else %>
+		we need a few more players before a bracket can be run.
+		<% end %>
+	</li>
+</ul>
 
 <ul>
 	<li>
-		<% if @tournament.started? %>Started<% else %>Starts<% end %> at: <%= @tournament.starts_at %>
-		(<% unless @tournament.started? %>in <% end %><%=
-			distance_of_time_in_words(Time.now.utc, @tournament.starts_at) %><%
-			if @tournament.started? %> ago<% end %>)
+		<%= render 'starts_at', :tournament => @tournament %>
 	</li>
 	<li>
-		<% if @tournament.ended? %>Ended<% else %>Ends<% end %> at: <%= @tournament.ends_at %>
-		(<% unless @tournament.ended? %>in <% end %><%=
-			distance_of_time_in_words(Time.now.utc, @tournament.ends_at) %><%
-			if @tournament.ended? %> ago<% end %>)
+		<%= render 'ends_at', :tournament => @tournament %>
 	</li>
-	<% if @tournament.can_join?(current_user) %>
-	<li><%= link_to 'Join this tournament', tournament_participants_path(@tournament), :method => :post %></li>
-	<% end %>
 </ul>
 
 <% @tournament.brackets.each_with_index do |bracket, i| %>

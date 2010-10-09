@@ -13,12 +13,12 @@
 		<%= f.text_area :description %>
 	</div>
 	<div>
-		<%= f.label :starts_at %> (in your time zone of <%= current_user.time_zone %>)
-		<%= f.datetime_select :starts_at %>
+		<%= f.label :should_start_at %>
+		<%= f.datetime_select :should_start_at %> (in your time zone of <%= current_user.time_zone %>)
 	</div>
 	<div>
-		<%= f.label :ends_at %> (in your time zone of <%= current_user.time_zone %>)
-		<%= f.datetime_select :ends_at %>
+		<%= f.label :should_end_at %>
+		<%= f.datetime_select :should_end_at %> (in your time zone of <%= current_user.time_zone %>)
 	</div>
 	<div>
 		<%= f.label :match_length %> (in hours)

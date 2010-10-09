@@ -10,7 +10,7 @@ module Games
       
       def hourly
         # start any tournaments
-        Tournament.ready_to_start.each do |tournament|
+        Tournament.should_start.each do |tournament|
           tournament.start!
         end
         
@@ -21,7 +21,7 @@ module Games
         end
         
         # start any new matches
-        Match.ready_to_start.each do |match|
+        Match.should_start.each do |match|
           users = match.match_players.map{|mp| mp.user}
           external_game_uri = @api.create_game(users)
           match.start!(external_game_uri)

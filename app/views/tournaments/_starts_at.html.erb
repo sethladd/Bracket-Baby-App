@@ -1,0 +1,9 @@
+<% if tournament.started? %>
+Started <%= distance_of_time_in_words(Time.now.utc, tournament.started_at) %> ago
+<% else %>
+	<% if tournament.should_start? %>
+	Registration closed, imminent start.
+	<% else %>
+	Estimated to start in <%= distance_of_time_in_words(Time.now.utc, tournament.should_start_at) %>
+	<% end %>
+<% end %>

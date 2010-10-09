@@ -1,0 +1,9 @@
+<% if tournament.ended? %>
+Ended <%= distance_of_time_in_words(Time.now.utc, tournament.ended_at) %> ago
+<% else %>
+	<% if tournament.should_end? %>
+	Tournament formally finished, imminent end.
+	<% else %>
+	Estimated to end in <%= distance_of_time_in_words(Time.now.utc, tournament.should_end_at) %>
+	<% end %>
+<% end %>

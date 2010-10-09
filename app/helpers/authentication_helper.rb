@@ -20,4 +20,8 @@ module AuthenticationHelper
       redirect_to(new_session_path)
     end
   end
+  
+  def ensure_admin
+    head 401 and return unless current_user.admin?
+  end
 end

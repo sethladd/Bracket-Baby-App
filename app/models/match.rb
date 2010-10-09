@@ -7,14 +7,16 @@ class Match < ActiveRecord::Base
   
   validates :bracket_id, :round, :match_length, :presence => true
   
-  scope :ready_to_start, lambda {
+  scope :should_start, lambda {
     where(:external_game_uri => nil).
-    where('starts_at <= ?', Time.now.utc).
+    where('should_start_at <= ?', Time.now.utc).
     where(:started_at => nil).
     where(:match_players_count => 2)
   }
   
-  scope :in_progress, where('started_at is not null AND ended_at is null')
+  scope :started, where('started_at is not null')
+  scope :in_progress, where('started_at is not null').where('ended_at is null')
+  scope :ended, where('ended_at is not null')
   
   def next_match
     Match.where('preceding_match1_id = ? OR preceding_match2_id = ?', self.id, self.id).first
@@ -25,12 +27,21 @@ class Match < ActiveRecord::Base
   end
   
   def start!(external_game_uri)
+    raise "not scheduled to start yet or already started" unless should_start?
+    
     now = Time.now.utc
     self.update_attributes!(
       :external_game_uri => external_game_uri,
       :started_at => now,
-      :ends_at => now + match_length.hours
+      :should_end_at => now + match_length.hours
     )
+  end
+  
+  def should_start?
+    external_game_uri.nil? &&
+    should_start_at <= Time.not.utc &&
+    started_at.nil? &&
+    match_players_count == 2
   end
   
   def update_game_state!(game_state)
@@ -40,8 +51,7 @@ class Match < ActiveRecord::Base
         match_player.update_attributes!(:score => player['score'])
       end
     
-      winner_email = game_state['winner']
-      unless winner_email.blank?
+      unless game_state['winner'].blank?
         match.end!(game_state)
       end
     

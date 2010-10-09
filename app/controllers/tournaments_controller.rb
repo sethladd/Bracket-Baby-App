@@ -1,5 +1,7 @@
 class TournamentsController < ApplicationController
   
+  before_filter :ensure_admin, :only => :destroy
+  
   def new
     @tournament = Tournament.new
   end
@@ -28,7 +30,7 @@ class TournamentsController < ApplicationController
   end
   
   def in_progress
-    @tournaments = Tournament.in_progress
+    @tournaments = Tournament.started_or_should_start
   end
   
   def finished

@@ -1,97 +1,110 @@
 class Tournament < ActiveRecord::Base
-  has_many :participants, :include => :user, :dependent => :destroy
+  has_many :registrations, :include => :user, :dependent => :destroy
   has_many :brackets, :dependent => :destroy
   has_many :matches, :through => :brackets
   
-  validates :name, :starts_at, :ends_at, :match_length, :presence => true
-  validates :starts_at, :ends_at, :date => {
+  validates :name, :should_start_at, :should_end_at, :match_length, :presence => true
+  validates :should_start_at, :should_end_at, :date => {
     :message => 'must be on or after today', :after_or_equal_to => Proc.new{Date.today} },
     :on => :create
-  validates :ends_at, :date => {
-    :message => 'must be on or after start date', :after_or_equal_to => :starts_at }
+  validates :should_end_at, :date => {
+    :message => 'must be on or after start date', :after_or_equal_to => :should_start_at }
   validates :match_length, :minimum_bracket_size, :numericality => {:greater_than => 0}
   
-  scope :in_progress, lambda { where('starts_at <= ? and ends_at > ?', Time.now.utc, Time.now.utc) }
-  scope :upcoming, lambda { where('starts_at > ?', Time.now.utc) }
-  scope :finished, lambda { where('ends_at <= ?', Time.now.utc) }
-  scope :ready_to_start, lambda { in_progress.where('started_at is null') }
-  scope :ready_to_end, lambda { finished.where('ended_at is null') }
+  scope :upcoming, lambda { where('should_start_at > ?', Time.now.utc) }
+  scope :should_start, lambda { where('should_start_at <= ?', Time.now.utc).where('started_at is null') }
+  scope :should_end, lambda { where('should_end_at <= ?', Time.now.utc).where('ended_at is null') }
   
-  def max_participants_per_bracket
+  scope :started, where('started_at is not null')
+  scope :ended, where('ended_at is not null')
+  scope :not_ended, where('ended_at is null')
+  scope :in_progress, started.not_ended
+  
+  scope :started_or_should_start, lambda { where('should_start_at <= ?', Time.now.utc).not_ended }
+  
+  def max_players_per_bracket
     (maximum_bracket_size > 0) ? maximum_bracket_size : (2 ** max_number_of_rounds)
   end
   
   def max_number_of_rounds
-    ((ends_at - starts_at) / 60 / 60 / match_length).floor
+    ((should_end_at - should_start_at) / 60 / 60 / match_length).floor
   end
   
-  def estimated_number_of_brackets
-    self.participants_count / max_participants_per_bracket
+  def quorum_for_at_least_one_bracket?
+    registrations_count >= minimum_bracket_size
   end
       
   def can_join?(user)
-    joinable? && !participating?(user)
+    !should_start? && !registered?(user)
   end
   
-  def joinable?
-    upcoming?
+  def can_quit?(user)
+    !should_start? && registered?(user)
   end
   
-  def upcoming?
-    !started?
+  def should_start?
+    should_start_at <= Time.now.utc
+  end
+  
+  def should_end?
+    should_end_at <= Time.now.utc
   end
   
   def started?
-    (starts_at <= Time.now.utc)
+    !started_at.nil?
   end
   
   def ended?
-    (ends_at <= Time.now.utc)
+    !ended_at.nil?
   end
   
   def in_progress?
-    now = Time.now.utc
-    (starts_at <= now && ends_at > now)
+    started? && !ended?
   end
 
-  def participating?(user)
-    !participants.where(:user_id => user.id).first.nil?
+  def registered?(user)
+    !registration_for_user(user).nil?
+  end
+  
+  def registration_for_user(user)
+    registrations.where(:user_id => user.id).first
   end
   
   def start!
     Tournament.transaction do
       # TODO: stream from db
-      participants.order('created_at').in_groups_of(max_participants_per_bracket).each do |g|
+      registrations.order('created_at').in_groups_of(max_players_per_bracket).map do |g|
         # remove any nils, the last group might have some
-        g.compact!
+        g.compact
       end.select do |g|
         # ensure we have a quorum
         g.size >= minimum_bracket_size
       end.each do |g|
         # if more than a quorum but less than a factor of 2, shrink until a factor of 2
-        max_size = max_participants_per_bracket
+        max_size = max_players_per_bracket
         next if g.size == max_size
         while (max_size > g.size)
           max_size = max_size >> 1
         end
         g.slice!(max_size..-1)
       end.map do |g|
-        # randomize the participants
+        # randomize the players
         g.sort_by{rand}
-      end.each do |match_participants|
+      end.each do |registrations|
         # place into brackets
         bracket = self.brackets.create!
         round_num = 0
-        matches = match_participants.in_groups_of(2).map do |participants|
+        matches = registrations.in_groups_of(2).map do |match_pair|
           now = Time.now.utc
-          match_starts_at = self.starts_at < now ? now : self.starts_at
+          match_should_start_at = self.should_start_at < now ? now : self.should_start_at
           match = bracket.matches.create!(
-            :starts_at => match_starts_at,
+            :should_start_at => match_should_start_at,
             :match_length => match_length,
             :round => round_num
           )
-          participants.each do |participant|
-            match.match_players.create!(:user => participant.user)
+          match_pair.each do |registration|
+            registration.confirm!
+            match.match_players.create!(:user => registration.user)
           end
           match
         end
@@ -115,8 +128,8 @@ class Tournament < ActiveRecord::Base
   private
   
   def end_date_is_greater_than_start_date
-    if ends_at < starts_at
-      errors.add(:ends_at, "must be on or after 'starts at'")
+    if should_end_at < should_start_at
+      errors.add(:should_end_at, "must be on or after 'should starts at'")
     end
   end
 end
