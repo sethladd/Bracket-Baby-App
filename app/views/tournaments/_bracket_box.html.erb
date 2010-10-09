@@ -5,6 +5,9 @@
 
 	<% if match.started? %>
 		<div>
+			Ending in <%= distance_of_time_in_words(Time.now, match.should_end_at) %>
+		</div>
+		<div>
 			Updated:
 			<% if match.updated_from_server_at %>
 				<%= distance_of_time_in_words(Time.now.utc, match.updated_from_server_at) %>
