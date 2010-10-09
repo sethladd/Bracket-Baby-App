@@ -74,4 +74,8 @@ class Match < ActiveRecord::Base
       end
     end
   end
+  
+  def started?
+    !started_at.nil?
+  end
 end

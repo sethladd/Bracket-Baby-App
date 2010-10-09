@@ -21,6 +21,7 @@ module TournamentsHelper
     players = match.match_players.sort_by{|mp| mp.id}
     output << display_player_and_score(players.first)
     output << display_player_and_score(players.last)
+    output << display_updated_from_server_at(match)
     output << "</td>\n"
     not_visited_matches.delete(match)
     output << display_match(not_visited_matches.detect{|m| m.preceded_by?(match)}, not_visited_matches, round+1)
@@ -36,6 +37,17 @@ module TournamentsHelper
       'TBD'
     end +
     "</div>\n"
+  end
+  
+  def display_updated_from_server_at(match)
+    return '' unless match.started?
+    "<div>Updated: " +
+    if match.updated_from_server_at
+      distance_of_time_in_words(Time.now.utc, match.updated_from_server_at)
+    else
+      'Pending'
+    end +
+    "</div>"
   end
   
 end
