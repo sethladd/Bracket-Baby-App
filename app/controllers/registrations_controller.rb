@@ -1,4 +1,4 @@
-class RegistrationssController < ApplicationController
+class RegistrationsController < ApplicationController
   
   def create
     @tournament = Tournament.find(params[:tournament_id])
