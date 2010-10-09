@@ -18,18 +18,18 @@
 		There are <%= @tournament.registrations_count %> players registered for this tournament.
 	</li>
 	<li>
-		<% if @tournament.registered?(current_user) %>
-			You are registered!
-			<% if @tournament.can_quit?(current_user) %>
-				<%= link_to 'Cancel registration',
-					tournament_registration_path(@tournament, @tournament.registration_for_user(current_user)),
-						:method => :delete, :confirm => 'Are you sure?' %>
-			<% end %>
-		<% else %>
-			<% if @tournament.can_join?(current_user) %>
-				<%= link_to 'Join this tournament', tournament_registrations_path(@tournament), :method => :post %>
-			<% end %>
+	<% if @tournament.registered?(current_user) %>
+		You are registered!
+		<% if @tournament.can_quit?(current_user) %>
+			<%= link_to 'Cancel registration',
+				tournament_registration_path(@tournament, @tournament.registration_for_user(current_user)),
+					:method => :delete, :confirm => 'Are you sure?' %>
 		<% end %>
+	<% elsif  @tournament.can_join?(current_user) %>
+		<%= link_to 'Join this tournament', tournament_registrations_path(@tournament), :method => :post %>
+	<% else %>
+		Sorry, registration is closed.
+	<% end %>
 	</li>
 
 	<li>
