@@ -4,6 +4,8 @@ module Games
   module Wordico
     class Flow
       
+      RACK_SIZE = 8
+      
       def initialize
         @api = Games::Wordico::Api.new
       end
@@ -24,7 +26,7 @@ module Games
           # start any new matches
           Match.should_start.each do |match|
             users = match.match_players.map{|mp| mp.user}
-            external_game_uri = @api.create_game(users)
+            external_game_uri = @api.create_game(users, RACK_SIZE, match.match_length)
             match.start!(external_game_uri)
           end
         end

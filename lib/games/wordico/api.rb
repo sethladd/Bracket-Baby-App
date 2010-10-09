@@ -11,12 +11,12 @@ module Games
         self.class.get('/games/' + game_uuid)
       end
       
-      def create_game(users, rack_size = 8, time_limit = 24, board_name = nil)
+      def create_game(users, rack_size = 8, time_limit_in_hours = 24, board_name = nil)
         board_name ||= ['Vortex', 'Swirl', 'Zig Zag', 'Crisscross', 'Letter Bomb'].sort_by{rand}.first
         create_game = {
           :boardName => board_name,
           :rackSize => rack_size,
-          :timeLimit => time_limit,
+          :timeLimit => time_limit_in_hours,
           :players => users.map{|u| {:email => u.email}}
         }
         response = self.class.post('/games', :body => create_game.to_json)
