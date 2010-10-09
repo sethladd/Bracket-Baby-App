@@ -119,6 +119,7 @@ class Tournament < ActiveRecord::Base
             )
           end
         end
+        matches.first.update_attributes!(:finals => true)
         bracket.update_attributes!(:number_of_rounds => round_num+1)
       end
       self.update_attributes!(:started_at => Time.now.utc)

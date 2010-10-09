@@ -19,6 +19,7 @@ module TournamentsHelper
     (output << " rowspan=\"#{2**round}\"") if round > 0
     output << ">\n"
     players = match.match_players.sort_by{|mp| mp.id}
+    output << "<div>Finals!!</div>" if match.finals?
     output << display_player_and_score(players.first)
     output << display_player_and_score(players.last)
     output << display_updated_from_server_at(match)
@@ -47,7 +48,7 @@ module TournamentsHelper
     else
       'Pending'
     end +
-    "</div>"
+    "</div>\n"
   end
   
 end

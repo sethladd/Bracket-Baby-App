@@ -69,7 +69,7 @@ class Match < ActiveRecord::Base
         :winner => winning_user,
         :ended_at => Time.now.utc
       })
-      if next_match
+      unless finals?
         next_match.match_players.create!(:user => winning_user)
       end
     end

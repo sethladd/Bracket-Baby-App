@@ -10,7 +10,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20101009060829) do
+ActiveRecord::Schema.define(:version => 20101009062014) do
 
   create_table "brackets", :force => true do |t|
     t.integer  "tournament_id"
@@ -49,6 +49,7 @@ ActiveRecord::Schema.define(:version => 20101009060829) do
     t.integer  "match_players_count",    :default => 0
     t.integer  "match_length"
     t.datetime "updated_from_server_at"
+    t.boolean  "finals",                 :default => false
   end
 
   add_index "matches", ["bracket_id"], :name => "index_matches_on_bracket_id"
