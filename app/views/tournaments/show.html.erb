@@ -63,6 +63,13 @@
 
 <% @tournament.brackets.each_with_index do |bracket, i| %>
 <h2>Bracket <%= i+1 %></h2>
+
+<% if bracket.finished? %>
+<p>
+	<%= bracket.final_match.winner.email %> is the winner!
+</p>
+<% end %>
+
 <table border="1">
 	<tbody>
 		<%= display_bracket(bracket) %>

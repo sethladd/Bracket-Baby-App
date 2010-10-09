@@ -73,7 +73,9 @@ class Match < ActiveRecord::Base
         :winner => winning_user,
         :ended_at => Time.now.utc
       })
-      unless finals?
+      if finals?
+        bracket.update_attributes!(:winner => winning_user)
+      else
         next_match.match_players.create!(:user => winning_user)
       end
     end
