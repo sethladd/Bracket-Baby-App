@@ -2,6 +2,9 @@
 	<% if player %>
 		<%= player.nickname %>,
 		Score: <%= player.score %>
+		<% if player.winner? %>
+		, WINNER!!
+		<% end %>
 	<% else %>
 		TBD
 	<% end %>

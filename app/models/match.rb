@@ -64,7 +64,9 @@ class Match < ActiveRecord::Base
   def end!(game_state)
     Match.transaction do
       winner_email = game_state['winner']
-      winning_user = match_players.detect{|mp| mp.user.email == winner_email}.user
+      winning_player = match_players.detect{|mp| mp.user.email == winner_email}
+      winning_player.update_attributes!(:winner => true)
+      winning_user = winning_player.user
       update_attributes!({
         :winner => winning_user,
         :ended_at => Time.now.utc
