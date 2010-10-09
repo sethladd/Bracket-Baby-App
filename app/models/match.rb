@@ -46,6 +46,8 @@ class Match < ActiveRecord::Base
   
   def update_game_state!(game_state)
     Match.transaction do
+      self.updated_from_server_at = Time.now.utc
+      
       game_state['players'].each do |player|
         match_player = match_players.detect{|mp| mp.user.email == player['email']}
         match_player.update_attributes!(:score => player['score'])
