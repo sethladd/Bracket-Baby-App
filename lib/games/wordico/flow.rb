@@ -29,6 +29,12 @@ module Games
             external_game_uri = @api.create_game(users, RACK_SIZE, match.match_length)
             match.start!(external_game_uri)
           end
+          
+          Tournament.in_progress.select do |tournament|
+            tournament.finished?
+          end.each do |tournament|
+            tournament.end!
+          end
         end
       end
     end

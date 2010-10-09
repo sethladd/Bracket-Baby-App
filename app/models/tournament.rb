@@ -130,6 +130,10 @@ class Tournament < ActiveRecord::Base
     end
   end
   
+  def end!
+    self.update_attributes!(:ended_at => Time.now.utc)
+  end
+  
   private
   
   def end_date_is_greater_than_start_date
