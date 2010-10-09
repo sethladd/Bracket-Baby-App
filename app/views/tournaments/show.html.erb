@@ -33,11 +33,21 @@
 	</li>
 
 	<li>
-		The minimum bracket size is <%= @tournament.minimum_bracket_size %>, which means
-		<% if @tournament.quorum_for_at_least_one_bracket? %>
-		at least one bracket will be run!
+		<% if @tournament.started? %>
+			There
+				<% if @tournament.brackets.count > 1 %>
+				are <%= @tournament.brackets.count %> brackets
+				<% else %>
+				is 1 bracket
+				<% end %>
+			in motion.
 		<% else %>
-		we need a few more players before a bracket can be run.
+			The minimum bracket size is <%= @tournament.minimum_bracket_size %>, which means
+			<% if @tournament.quorum_for_at_least_one_bracket? %>
+			at least one bracket will be run!
+			<% else %>
+			we need a few more players before a bracket can be run.
+			<% end %>
 		<% end %>
 	</li>
 </ul>
