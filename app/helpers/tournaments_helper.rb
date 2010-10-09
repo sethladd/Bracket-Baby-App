@@ -15,40 +15,10 @@ module TournamentsHelper
   
   def display_match(match, not_visited_matches, round)
     return '' unless match
-    output = "<td"
-    (output << " rowspan=\"#{2**round}\"") if round > 0
-    output << ">\n"
-    players = match.match_players.sort_by{|mp| mp.id}
-    output << "<div>Finals!!</div>" if match.finals?
-    output << display_player_and_score(players.first)
-    output << display_player_and_score(players.last)
-    output << display_updated_from_server_at(match)
-    output << "</td>\n"
+    output = render('bracket_box', :match => match, :round => round, :players => match.match_players.sort_by{|mp| mp.id})
     not_visited_matches.delete(match)
     output << display_match(not_visited_matches.detect{|m| m.preceded_by?(match)}, not_visited_matches, round+1)
     output
-  end
-  
-  def display_player_and_score(player)
-    "<div>" +
-    if player
-      h(player.nickname) +
-      ', Score: ' + player.score.to_s
-    else
-      'TBD'
-    end +
-    "</div>\n"
-  end
-  
-  def display_updated_from_server_at(match)
-    return '' unless match.started?
-    "<div>Updated: " +
-    if match.updated_from_server_at
-      distance_of_time_in_words(Time.now.utc, match.updated_from_server_at)
-    else
-      'Pending'
-    end +
-    "</div>\n"
   end
   
 end
