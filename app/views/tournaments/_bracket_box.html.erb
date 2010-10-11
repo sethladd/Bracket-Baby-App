@@ -6,9 +6,11 @@
 	<% if match.started? %>
 		<div>
 			<% if match.ended? %>
-				Ending in <%= distance_of_time_in_words(Time.now, match.should_end_at) %>
+				Ended <%= distance_of_time_in_words(Time.now.utc, match.ended_at) %> ago
+			<% elsif match.should_have_ended? %>
+				Match formally ended <%= distance_of_time_in_words(Time.now.utc, match.should_end_at) %> ago, waiting for confirmation
 			<% else %>
-				Ended <%= distance_of_time_in_words(Time.now, match.should_end_at) %> ago
+				Ending approx in <%= distance_of_time_in_words(Time.now.utc, match.should_end_at) %>
 			<% end %>
 		</div>
 		<div>
