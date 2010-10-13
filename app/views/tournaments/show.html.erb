@@ -45,6 +45,7 @@
 			The minimum bracket size is <%= @tournament.minimum_bracket_size %>, which means
 			<% if @tournament.quorum_for_at_least_one_bracket? %>
 			at least one bracket will be run!
+				<% @tournament.start!%>
 			<% else %>
 			we need a few more players before a bracket can be run.
 			<% end %>
@@ -70,9 +71,8 @@
 </p>
 <% end %>
 
-<table border="1">
-	<tbody>
-		<%= display_bracket(bracket) %>
-	</tbody>
-</table>
+
+<svg width="100%" height="100%">
+	<%= display_svg_bracket(bracket) %>
+</svg>
 <% end %>
