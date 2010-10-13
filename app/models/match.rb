@@ -84,4 +84,12 @@ class Match < ActiveRecord::Base
   def started?
     !started_at.nil?
   end
+  
+  def ended?
+    !ended_at.nil?
+  end
+  
+  def should_have_ended?
+    should_end_at <= Time.now.utc
+  end
 end
