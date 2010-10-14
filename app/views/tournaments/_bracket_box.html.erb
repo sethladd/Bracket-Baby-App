@@ -1,17 +1,13 @@
-<!-- currently optimized for 8 and 16 player brackets -->
 <g transform="translate(<%= 190*round %>,
 <% if round == 0 %>
-	<%= 90*(match.id - starting_match + 1) + -90 %>
-<% elsif round == 1 && (match.id - starting_match + 1) > 8 %>
-	<%= ((match.id - (starting_match + 8)) * 2)*90 + 20 %>
-<% elsif round == 1 && (match.id - starting_match + 1) > 4 %>
-	<%= ((match.id - (starting_match + 4)) * 2)*90 + 20 %>
-<% elsif round == 2 && (match.id - starting_match + 1) > 12 %>
-	<%= ((match.id - (starting_match + 12)) * 4.5)*80 + 60 %>
-<% elsif round == 2 && (match.id - starting_match + 1) > 6 %>
-	<%= ((match.id - (starting_match + 6)) * 2)*80 + 60 %>
+	<%= 90 * match_iter %>
+<% elsif round == 1 %>
+	<%= 90 * match_iter + 20 %>
+<% elsif round == 2 %>
+	<%= 90 * match_iter + 60 %>
 <% elsif round == 3 %>
-	150
+	<%= 90 * match_iter + 150 %>
+<% else %>
 <% end %>)"><rect x="20" y="20" rx="10" ry="10" width="150" height="30" style="fill:
 	<% if players.first %>
 		<% if players.first.winner? %>
@@ -39,17 +35,13 @@
 </g>
 <g transform="translate(<%= 190*round %>,
 <% if round == 0 %>
-	<%= 90*(match.id - starting_match + 1) + -50 %>
-<% elsif round == 1 && (match.id - starting_match + 1) > 8 %>
-	<%= ((match.id - (starting_match + 8)) * 2)*90 + 110 %>
-<% elsif round == 1 && (match.id - starting_match + 1) > 4 %>
-	<%= ((match.id - (starting_match + 4)) * 2)*90 + 110 %>
-<% elsif round == 2 && (match.id - starting_match + 1) > 12 %>
-	<%= ((match.id - (starting_match + 12)) * 4.5)*80 + 240 %>
-<% elsif round == 2 && (match.id - starting_match + 1) > 6 %>
-	<%= ((match.id - (starting_match + 6)) * 2)*80 + 240 %>
+	<%= 90 * match_iter + 40 %>
+<% elsif round == 1 %>
+	<%= 90 * match_iter + 110 %>
+<% elsif round == 2 %>
+	<%= 90 * match_iter + 240 %>
 <% elsif round == 3 %>
-	510
+	<%= 90 * match_iter + 510 %>
 <% end %>)"><rect x="20" y="20" rx="10" ry="10" width="150" height="30" style="fill:
 	<% if players.last %>
 		<% if players.last.winner? %>
@@ -75,11 +67,11 @@
 	<% end %>
 <% end %>
 <text x="30" y="63" style="font-family:Verdana;font-size:12;opacity:0.75">
-	<% if match.started? %>
+<% if match.started? %>
 	<% if match.ended? %>
 		Ended <%= distance_of_time_in_words(Time.now.utc, match.ended_at) %> ago
 	<% elsif match.should_have_ended? %>
-		Ended <%= distance_of_time_in_words(Time.now.utc, match.should_end_at) %> ago
+		Ended <%= distance_of_time_in_words(Time.now.utc, match.should_end_at) %> ago. 
 	<% else %>
 		Ending in <%= distance_of_time_in_words(Time.now.utc, match.should_end_at) %>
 	<% end %>
@@ -88,7 +80,11 @@
 </g>
 <% if match.finals? %>
 	<g transform="translate(<%= 190*(round+1) %>, 
-	<% if round == 2 && (match.id - starting_match + 1) > 6 %>
+	<% if round == 0 %>
+			20
+	<% elsif round == 1 %>
+			60
+	<% elsif round == 2 %>
 		150
 	<% elsif round == 3 %>
 		330
@@ -104,21 +100,19 @@
 		<%= players.first.nickname %>: <%= players.first.score %>
 	<% elsif players.last.winner? %>
 		<%= players.last.nickname %>: <%= players.last.score %>
+	<% else %>
+		TBD
 	<% end %>
 <% else %>
 	TBD
 <% end %></text></g>
 <% end %>
 <% if round == 0 %>
-	<path transform="translate(<%= 190*round %>, <%= 90*(match.id - starting_match + 1) + -90 %>)" d="M172 35 l20 0 l5 5 l0 30 l-5 5 l-20 0 M199 55 l9 0" style="fill:none;stroke:black;stroke-width:4;opacity:0.5"/> 
-<% elsif round == 1 && (match.id - starting_match + 1) > 8%>
-	<path transform="translate(<%= 190*round %>, <%= ((match.id - (starting_match + 8)) * 2)*90 + 20 %>)" d="M172 35 l20 0 l5 5 l0 80 l-5 5 l-20 0 M199 75 l9 0" style="fill:none;stroke:black;stroke-width:4;opacity:0.5"/>
-<% elsif round == 1 && (match.id - starting_match + 1) > 4%>
-	<path transform="translate(<%= 190*round %>, <%= ((match.id - (starting_match + 4)) * 2)*90 + 20 %>)" d="M172 35 l20 0 l5 5 l0 80 l-5 5 l-20 0 M199 75 l9 0" style="fill:none;stroke:black;stroke-width:4;opacity:0.5"/>
-<% elsif round == 2 && (match.id - starting_match + 1) > 12%>
-	<path transform="translate(<%= 190*round %>, <%= ((match.id - (starting_match + 12)) * 4.5)*80 + 60 %>)" d="M172 35 l20 0 l5 5 l0 170 l-5 5 l-20 0 M199 125 l9 0" style="fill:none;stroke:black;stroke-width:4;opacity:0.5"/>
-<% elsif round == 2 && (match.id - starting_match + 1) > 6%>
-	<path transform="translate(<%= 190*round %>, <%= ((match.id - (starting_match + 6)) * 2)*80 + 60 %>)" d="M172 35 l20 0 l5 5 l0 170 l-5 5 l-20 0 M199 125 l9 0" style="fill:none;stroke:black;stroke-width:4;opacity:0.5"/>
+	<path transform="translate(<%= 190*round %>, <%= 90*match_iter %>)" d="M172 35 l20 0 l5 5 l0 30 l-5 5 l-20 0 M199 55 l9 0" style="fill:none;stroke:black;stroke-width:4;opacity:0.5"/> 
+<% elsif round == 1 %>
+	<path transform="translate(<%= 190*round %>, <%= 90*match_iter + 20 %>)" d="M172 35 l20 0 l5 5 l0 80 l-5 5 l-20 0 M199 75 l9 0" style="fill:none;stroke:black;stroke-width:4;opacity:0.5"/>
+<% elsif round == 2 %>
+	<path transform="translate(<%= 190*round %>, <%= 90*match_iter + 60 %>)" d="M172 35 l20 0 l5 5 l0 170 l-5 5 l-20 0 M199 125 l9 0" style="fill:none;stroke:black;stroke-width:4;opacity:0.5"/>
 <% elsif round == 3 %>
-	<path transform="translate(<%= 190*round %>, 150)" d="M172 35 l20 0 l5 5 l0 350 l-5 5 l-20 0 M199 215 l9 0" style="fill:none;stroke:black;stroke-width:4;opacity:0.5"/>
+	<path transform="translate(<%= 190*round %>, <%= 90*match_iter + 150 %>)" d="M172 35 l20 0 l5 5 l0 350 l-5 5 l-20 0 M199 215 l9 0" style="fill:none;stroke:black;stroke-width:4;opacity:0.5"/>
 <% end %>
