@@ -71,10 +71,10 @@
 </p>
 <% end %>
 
-
-<svg width="100%" height="110%">
+<svg width="100%" height="110%" id="svg-bracket-<%=i%>">
 	<%= display_svg_bracket(bracket) %>
-	
 </svg>
+
+<%= link_to 'As Table', table_tournament_bracket_path(@tournament, bracket) %>
 
 <% end %>

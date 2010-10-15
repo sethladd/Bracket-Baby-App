@@ -1,0 +1,25 @@
+<td<% if round > 0 %> rowspan="<%= 2**round %>"<% end %>>
+	<% if match.finals? %><div>Finals!!</div><% end %>
+	<%= render 'bracket_box_player', :player => players.first %>
+	<%= render 'bracket_box_player', :player => players.last %>
+
+	<% if match.started? %>
+		<div>
+			<% if match.ended? %>
+				Ended <%= distance_of_time_in_words(Time.now.utc, match.ended_at) %> ago
+			<% elsif match.should_have_ended? %>
+				Match formally ended <%= distance_of_time_in_words(Time.now.utc, match.should_end_at) %> ago, waiting for confirmation
+			<% else %>
+				Ending approx in <%= distance_of_time_in_words(Time.now.utc, match.should_end_at) %>
+			<% end %>
+		</div>
+		<div>
+			Updated:
+			<% if match.updated_from_server_at %>
+				<%= distance_of_time_in_words(Time.now.utc, match.updated_from_server_at) %>
+			<% else %>
+				Pending
+			<% end %>
+		</div>
+	<% end %>
+</td>
