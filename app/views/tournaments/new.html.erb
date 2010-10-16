@@ -21,8 +21,8 @@
 		<%= f.datetime_select :should_end_at %> (in your time zone of <%= current_user.time_zone %>)
 	</div>
 	<div>
-		<%= f.label :match_length %> (in hours)
-		<%= f.text_field :match_length, :type => "number" %>
+		<%= f.label :match_length_hours %> (in hours, can be fractional)
+		<%= f.text_field :match_length_hours, :type => "number" %>
 	</div>
 	<div>
 		<%= f.label :minimum_bracket_size %>

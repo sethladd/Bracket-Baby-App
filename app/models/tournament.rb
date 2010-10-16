@@ -3,13 +3,13 @@ class Tournament < ActiveRecord::Base
   has_many :brackets, :dependent => :destroy
   has_many :matches, :through => :brackets
   
-  validates :name, :should_start_at, :should_end_at, :match_length, :presence => true
+  validates :name, :should_start_at, :should_end_at, :match_length_seconds, :presence => true
   validates :should_start_at, :should_end_at, :date => {
     :message => 'must be on or after today', :after_or_equal_to => Proc.new{Date.today} },
     :on => :create
   validates :should_end_at, :date => {
     :message => 'must be on or after start date', :after_or_equal_to => :should_start_at }
-  validates :match_length, :minimum_bracket_size, :numericality => {:greater_than => 0}
+  validates :match_length_seconds, :minimum_bracket_size, :numericality => {:greater_than => 0}
   
   scope :upcoming, lambda { where('should_start_at > ?', Time.now.utc) }
   scope :should_start, lambda { where('should_start_at <= ?', Time.now.utc).where('started_at is null') }
@@ -22,12 +22,21 @@ class Tournament < ActiveRecord::Base
   
   scope :started_or_should_start, lambda { where('should_start_at <= ?', Time.now.utc).not_ended }
   
+  def match_length_hours
+    return nil if match_length_seconds.nil?
+    match_length_seconds / 60 / 60.0
+  end
+  
+  def match_length_hours=(hours)
+    self.match_length_seconds = hours.to_f.hours.seconds
+  end
+  
   def max_players_per_bracket
     (maximum_bracket_size > 0) ? maximum_bracket_size : (2 ** max_number_of_rounds)
   end
   
   def max_number_of_rounds
-    ((should_end_at - should_start_at) / 60 / 60 / match_length).floor
+    ((should_end_at - should_start_at) / 60 / 60 / (match_length_seconds*60*60)).floor
   end
   
   def quorum_for_at_least_one_bracket?
@@ -103,7 +112,7 @@ class Tournament < ActiveRecord::Base
           match_should_start_at = self.should_start_at < now ? now : self.should_start_at
           match = bracket.matches.create!(
             :should_start_at => match_should_start_at,
-            :match_length => match_length,
+            :match_length_seconds => match_length_seconds,
             :round => round_num
           )
           match_pair.each do |registration|
@@ -118,7 +127,7 @@ class Tournament < ActiveRecord::Base
             bracket.matches.create!(
               :preceding_match1 => group.first,
               :preceding_match2 => group.last,
-              :match_length => match_length,
+              :match_length_seconds => match_length_seconds,
               :round => round_num
             )
           end

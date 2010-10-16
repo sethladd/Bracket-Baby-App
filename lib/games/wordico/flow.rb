@@ -26,7 +26,7 @@ module Games
           # start any new matches
           Match.should_start.each do |match|
             users = match.match_players.map{|mp| mp.user}
-            external_game_uri = @api.create_game(users, RACK_SIZE, match.match_length)
+            external_game_uri = @api.create_game(users, RACK_SIZE, match.match_length_seconds)
             match.start!(external_game_uri)
           end
           
