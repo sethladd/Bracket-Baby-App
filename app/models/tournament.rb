@@ -36,7 +36,7 @@ class Tournament < ActiveRecord::Base
   end
   
   def max_number_of_rounds
-    ((should_end_at - should_start_at) / 60 / 60 / (match_length_seconds*60*60)).floor
+    ((should_end_at - should_start_at) / match_length_seconds).floor
   end
   
   def quorum_for_at_least_one_bracket?
