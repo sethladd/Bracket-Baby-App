@@ -3,6 +3,7 @@
 <ul>
 	<li><%= link_to 'Join Upcoming Tournaments', upcoming_tournaments_path %></li>
 	<li><%= link_to 'Follow In-Progress Tournaments', in_progress_tournaments_path %></li>
+	<li><%= link_to 'Finished Tournaments', finished_tournaments_path %></li>
 	<li><%= link_to 'Create a Tournament', new_tournament_path %> (requires subscription)</li>
 	<% if signed_in? %>
 	<li><%= link_to 'Sign Out', session_path, :method => :delete %>

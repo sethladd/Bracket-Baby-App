@@ -34,7 +34,7 @@ class TournamentsController < ApplicationController
   end
   
   def finished
-    @tournaments = Tournament.finished
+    @tournaments = Tournament.ended
   end
   
 end
