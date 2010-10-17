@@ -8,7 +8,8 @@ module Games
       
       def game_state(game_uuid)
         game_uuid = extract_uuid(game_uuid)
-        self.class.get('/games/' + game_uuid)
+        response = self.class.get('/games/' + game_uuid)
+        response.response.code == '404' ? nil : response
       end
       
       def create_game(users, rack_size = 8, time_limit_in_seconds = 24.hours, board_name = nil)

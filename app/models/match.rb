@@ -48,6 +48,7 @@ class Match < ActiveRecord::Base
   end
   
   def update_game_state!(game_state)
+    return unless game_state
     Match.transaction do
       self.updated_from_server_at = Time.now.utc
       
