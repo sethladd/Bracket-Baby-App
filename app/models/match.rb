@@ -58,7 +58,7 @@ class Match < ActiveRecord::Base
       end
     
       unless game_state['winner'].blank?
-        match.end!(game_state)
+        self.end!(game_state)
       end
     
       self.save!
