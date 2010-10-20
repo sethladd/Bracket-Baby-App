@@ -1,14 +1,11 @@
 <g transform="translate(<%= 190*round %>,
-<% if round == 0 %>
-	<%= 90 * match_iter %>
-<% elsif round == 1 %>
-	<%= 90 * match_iter + 20 %>
-<% elsif round == 2 %>
-	<%= 90 * match_iter + 60 %>
-<% elsif round == 3 %>
-	<%= 90 * match_iter + 150 %>
-<% else %>
-<% end %>)"><rect x="20" y="20" rx="10" ry="10" width="150" height="30" style="fill:
+<%= 
+case round
+when 0 then 90 * match_iter
+when 1 then 90 * match_iter + 20
+when 2 then 90 * match_iter + 60
+when 3 then 90 * match_iter + 150
+end %>)"><rect x="20" y="20" rx="10" ry="10" width="150" height="30" style="fill:
 	<% if players.first %>
 		<% if players.first.winner? %>
 		green
@@ -34,15 +31,13 @@
 <% end %>
 </g>
 <g transform="translate(<%= 190*round %>,
-<% if round == 0 %>
-	<%= 90 * match_iter + 40 %>
-<% elsif round == 1 %>
-	<%= 90 * match_iter + 110 %>
-<% elsif round == 2 %>
-	<%= 90 * match_iter + 240 %>
-<% elsif round == 3 %>
-	<%= 90 * match_iter + 510 %>
-<% end %>)"><rect x="20" y="20" rx="10" ry="10" width="150" height="30" style="fill:
+<%= 
+case round
+when 0 then 90 * match_iter + 40
+when 1 then 90 * match_iter + 110
+when 2 then 90 * match_iter + 240
+when 3 then 90 * match_iter + 510
+end %>)"><rect x="20" y="20" rx="10" ry="10" width="150" height="30" style="fill:
 	<% if players.last %>
 		<% if players.last.winner? %>
 		green
@@ -79,16 +74,14 @@
 </text>		
 </g>
 <% if match.finals? %>
-	<g transform="translate(<%= 190*(round+1) %>, 
-	<% if round == 0 %>
-			20
-	<% elsif round == 1 %>
-			60
-	<% elsif round == 2 %>
-		150
-	<% elsif round == 3 %>
-		330
-	<% end %>)"><rect x="20" y="20" rx="10" ry="10" width="150" height="30" style="fill:
+	<g transform="translate(<%= 190*(round+1) %>,
+	<%= 
+	case round
+	when 0 then 20
+	when 1 then 60
+	when 2 then 150
+	when 3 then 330
+	end %>)"><rect x="20" y="20" rx="10" ry="10" width="150" height="30" style="fill:
 	<% if match.winner.nil? %>
 		blue
 	<% else %>
