@@ -72,7 +72,7 @@
 </p>
 <% end %>
 
-<svg width="100%" height="110%" id="svg-bracket-<%=i%>">
+<svg width="100%" height="<%= bracket.number_of_players * 58 -%>px" id="svg-bracket-<%=i%>">
 	<%= display_svg_bracket(bracket) %>
 </svg>
 
