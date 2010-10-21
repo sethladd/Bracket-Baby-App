@@ -1,10 +1,10 @@
 <g transform="translate(<%= 190*round %>,
 <%= 
 case round
-when 0 then 90 * match_iter
-when 1 then 90 * match_iter + 20
-when 2 then 90 * match_iter + 60
-when 3 then 90 * match_iter + 150
+when 0 then 110 * match_iter
+when 1 then 110 * match_iter + 20
+when 2 then 110 * match_iter + 70
+when 3 then 110 * match_iter + 170
 end %>)"><rect x="20" y="20" rx="10" ry="10" width="150" height="30" style="fill:
 	<% if players.first %>
 		<% if players.first.winner? %>
@@ -33,10 +33,10 @@ end %>)"><rect x="20" y="20" rx="10" ry="10" width="150" height="30" style="fill
 <g transform="translate(<%= 190*round %>,
 <%= 
 case round
-when 0 then 90 * match_iter + 40
-when 1 then 90 * match_iter + 110
-when 2 then 90 * match_iter + 240
-when 3 then 90 * match_iter + 510
+when 0 then 110 * match_iter + 40
+when 1 then 110 * match_iter + 130
+when 2 then 110 * match_iter + 290
+when 3 then 110 * match_iter + 610
 end %>)"><rect x="20" y="20" rx="10" ry="10" width="150" height="30" style="fill:
 	<% if players.last %>
 		<% if players.last.winner? %>
@@ -66,7 +66,8 @@ end %>)"><rect x="20" y="20" rx="10" ry="10" width="150" height="30" style="fill
 	<% if match.ended? %>
 		Ended <%= distance_of_time_in_words(Time.now.utc, match.ended_at) %> ago
 	<% elsif match.should_have_ended? %>
-		Ended <%= distance_of_time_in_words(Time.now.utc, match.should_end_at) %> ago. 
+		Match formally ended </text><text x="30" y="73" style="font-family:Verdana;font-size:12;opacity:0.75">
+		<%= distance_of_time_in_words(Time.now.utc, match.should_end_at) %> ago, awaiting confirmation
 	<% else %>
 		Ending in <%= distance_of_time_in_words(Time.now.utc, match.should_end_at) %>
 	<% end %>
@@ -79,8 +80,8 @@ end %>)"><rect x="20" y="20" rx="10" ry="10" width="150" height="30" style="fill
 	case round
 	when 0 then 20
 	when 1 then 60
-	when 2 then 150
-	when 3 then 330
+	when 2 then 170
+	when 3 then 390
 	end %>)"><rect x="20" y="20" rx="10" ry="10" width="150" height="30" style="fill:
 	<% if match.winner.nil? %>
 		blue
@@ -101,11 +102,11 @@ end %>)"><rect x="20" y="20" rx="10" ry="10" width="150" height="30" style="fill
 <% end %></text></g>
 <% end %>
 <% if round == 0 %>
-	<path transform="translate(<%= 190*round %>, <%= 90*match_iter %>)" d="M172 35 l20 0 l5 5 l0 30 l-5 5 l-20 0 M199 55 l9 0" style="fill:none;stroke:black;stroke-width:4;opacity:0.5"/> 
+	<path transform="translate(<%= 190*round %>, <%= 110*match_iter %>)" d="M172 35 l20 0 l5 5 l0 30 l-5 5 l-20 0 M199 55 l9 0" style="fill:none;stroke:black;stroke-width:4;opacity:0.5"/> 
 <% elsif round == 1 %>
-	<path transform="translate(<%= 190*round %>, <%= 90*match_iter + 20 %>)" d="M172 35 l20 0 l5 5 l0 80 l-5 5 l-20 0 M199 75 l9 0" style="fill:none;stroke:black;stroke-width:4;opacity:0.5"/>
+	<path transform="translate(<%= 190*round %>, <%= 110*match_iter + 20 %>)" d="M172 35 l20 0 l5 5 l0 100 l-5 5 l-20 0 M199 85 l9 0" style="fill:none;stroke:black;stroke-width:4;opacity:0.5"/>
 <% elsif round == 2 %>
-	<path transform="translate(<%= 190*round %>, <%= 90*match_iter + 60 %>)" d="M172 35 l20 0 l5 5 l0 170 l-5 5 l-20 0 M199 125 l9 0" style="fill:none;stroke:black;stroke-width:4;opacity:0.5"/>
+	<path transform="translate(<%= 190*round %>, <%= 110*match_iter + 70 %>)" d="M172 35 l20 0 l5 5 l0 210 l-5 5 l-20 0 M199 135 l9 0" style="fill:none;stroke:black;stroke-width:4;opacity:0.5"/>
 <% elsif round == 3 %>
-	<path transform="translate(<%= 190*round %>, <%= 90*match_iter + 150 %>)" d="M172 35 l20 0 l5 5 l0 350 l-5 5 l-20 0 M199 215 l9 0" style="fill:none;stroke:black;stroke-width:4;opacity:0.5"/>
+	<path transform="translate(<%= 190*round %>, <%= 110*match_iter + 170 %>)" d="M172 35 l20 0 l5 5 l0 430 l-5 5 l-20 0 M199 255 l9 0" style="fill:none;stroke:black;stroke-width:4;opacity:0.5"/>
 <% end %>
