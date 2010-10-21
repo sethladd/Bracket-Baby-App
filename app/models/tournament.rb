@@ -107,9 +107,9 @@ class Tournament < ActiveRecord::Base
         # place into brackets
         bracket = self.brackets.create!
         round_num = 0
+        match_should_start_at = [self.should_start_at, Time.now.utc].max
+        
         matches = registrations.in_groups_of(2).map do |match_pair|
-          now = Time.now.utc
-          match_should_start_at = self.should_start_at < now ? now : self.should_start_at
           match = bracket.matches.create!(
             :should_start_at => match_should_start_at,
             :match_length_seconds => match_length_seconds,
@@ -125,6 +125,7 @@ class Tournament < ActiveRecord::Base
           round_num += 1
           matches = matches.in_groups_of(2).map do |group|
             bracket.matches.create!(
+              :should_start_at => match_should_start_at + (match_length_seconds * round_num),
               :preceding_match1 => group.first,
               :preceding_match2 => group.last,
               :match_length_seconds => match_length_seconds,
