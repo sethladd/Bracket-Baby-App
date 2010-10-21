@@ -6,4 +6,8 @@ class Bracket < ActiveRecord::Base
   def finished?
     !self.winner_id.nil?
   end
+  
+  def number_of_players
+    2**self.number_of_rounds
+  end
 end
