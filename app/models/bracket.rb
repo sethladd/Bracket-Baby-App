@@ -10,4 +10,8 @@ class Bracket < ActiveRecord::Base
   def number_of_players
     2**self.number_of_rounds
   end
+  
+  def first_round_matches
+    matches.select{|m| m.round == 0}
+  end
 end

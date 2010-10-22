@@ -4,7 +4,7 @@ module TournamentsHelper
     not_visited_matches = bracket.matches.dup
     output = ''
     
-    bracket.matches.select{|m| m.round == 0}.each_with_index do |first_round_match, match_iter|
+    bracket.first_round_matches.each_with_index do |first_round_match, match_iter|
       output << display_svg_match(first_round_match, not_visited_matches, 0, match_iter, first_round_match)
     end
     
