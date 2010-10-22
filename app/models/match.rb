@@ -21,6 +21,10 @@ class Match < ActiveRecord::Base
   
   scope :finals_are_finished, where(:finals => true).where('ended_at is not null')
   
+  def is_user_playing?(user)
+    match_players.map{|mp| mp.user}.any?{|u| u == user}
+  end
+  
   def next_match
     Match.where('preceding_match1_id = ? OR preceding_match2_id = ?', self.id, self.id).first
   end
