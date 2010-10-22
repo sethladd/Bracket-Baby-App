@@ -27,7 +27,7 @@ module BracketsHelper
                 :players => players)
     not_visited_matches.delete(match)
     next_match = not_visited_matches.detect{|m| m.preceded_by?(match)}
-    output << display_table_match(next_match, not_visited_matches, round+1)
+    output << display_table_match(next_match, not_visited_matches, round+1, match)
     output
   end
 end
