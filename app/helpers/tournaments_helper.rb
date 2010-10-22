@@ -16,9 +16,8 @@ module TournamentsHelper
     
     players = match.match_players.sort_by{|mp| mp.id}
     if (preceding_match != match && !preceding_match.winner.nil? &&
-        (preceding_match.match_players.first.nickname != players.first.nickname && 
-         preceding_match.match_players.last.nickname != players.first.nickname))
-      players = match.match_players.sort_by{|mp| mp.id}.reverse
+        (preceding_match.is_user_playing?(players.last.user)))
+      players.reverse!
     end
     
     output = render('bracket_box_svg',
