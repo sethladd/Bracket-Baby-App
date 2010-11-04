@@ -1,3 +1,5 @@
-<h1><%= @title = 'Finished Tournaments' %></h1>
+<h2><%= @title = 'Finished Tournaments' %></h2>
 
-<%= render :partial => 'list_tournaments' %>
+<div class="content">
+<%= render  '/tournaments/list_tournaments', :tournaments => @tournaments %>
+</div>

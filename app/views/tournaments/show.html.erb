@@ -1,5 +1,6 @@
-<h1><%= @title = @tournament.name %></h1>
+<h2><%= @title = @tournament.name %></h2>
 
+<div class="content">
 <% if current_user.admin? %>
 <p><%= link_to 'DELETE', @tournament, :method => :delete, :confirm => 'Are you sure?' %></p>
 <% end %>
@@ -9,7 +10,6 @@
 	<%= flash[:error] %>
 </div>
 <% end %>
-
 <p><%= @tournament.description %></p>
 
 <ul>
@@ -64,7 +64,7 @@
 </ul>
 
 <% @tournament.brackets.each_with_index do |bracket, i| %>
-<h2>Bracket <%= i+1 %></h2>
+<h3>Bracket <%= i+1 %></h3>
 
 <% if bracket.finished? %>
 <p>
@@ -79,3 +79,4 @@
 <%= link_to 'As Table', table_tournament_bracket_path(@tournament, bracket) %>
 
 <% end %>
+</div>

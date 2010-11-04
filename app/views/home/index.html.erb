@@ -1,11 +1,46 @@
-<h1>Bracket Baby - <%= @title = "Dashboard" %></h1>
+<h2><%= @title = "Dashboard" %></h2>
 
-<ul>
-	<li><%= link_to 'Join Upcoming Tournaments', upcoming_tournaments_path %></li>
-	<li><%= link_to 'Follow In-Progress Tournaments', in_progress_tournaments_path %></li>
-	<li><%= link_to 'Finished Tournaments', finished_tournaments_path %></li>
-	<li><%= link_to 'Create a Tournament', new_tournament_path %> (requires subscription)</li>
-	<% if signed_in? %>
-	<li><%= link_to 'Sign Out', session_path, :method => :delete %>
-	<% end %>
-</ul>
+<div class="dashboard-content">
+	<div class="content-column">
+		<div class="content-column-header">
+			<%= link_to 'Join Upcoming Tournaments', upcoming_tournaments_path %>
+		</div>
+		<% if @upcoming_tournaments.empty? %>
+		<p class="content-column-text">
+			No upcoming tournaments at this time.
+		</p>
+		<% else %>
+		<%= render  '/tournaments/list_tournaments', :tournaments => @upcoming_tournaments %>
+		<% end %>
+	</div>
+	<div class="content-column">
+		<div class="content-column-header">
+			<%= link_to 'Follow In-Progress Tournaments', in_progress_tournaments_path %>
+		</div>
+		<% if @in_progress_tournaments.empty? %>
+		<p class="content-column-text">
+			No in progress tournaments at this time.
+		</p>
+		<% else %>
+		<%= render  '/tournaments/list_tournaments', :tournaments => @in_progress_tournaments %>
+		<% end %>
+	</div>
+	<div class="content-column">
+		<div class="content-column-header">
+			<%= link_to 'Finished Tournaments', finished_tournaments_path %>
+		</div>
+		<% if @finished_tournaments.empty? %>
+		<p class="content-column-text">
+			No finished tournaments at this time.
+		</p>
+		<% else %>
+		<%= render  '/tournaments/list_tournaments', :tournaments => @finished_tournaments %>
+		<% end %>
+	</div>
+	<div class="content-column">
+		<div class="content-column-header">
+			<%= link_to 'Create a Tournament', new_tournament_path %>
+		</div>
+		(requires subscription)
+	</div>	
+</div>

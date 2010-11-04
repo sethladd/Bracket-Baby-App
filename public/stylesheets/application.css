@@ -1,1 +1,103 @@
-label { display: block; }
+@import url(http://fonts.googleapis.com/css?family=Molengo&subset=latin);
+@font-face {
+font-family: Collegiate;
+src: url(../files/collegiateHeavyOutlineMedium.ttf);
+}
+h1 {
+	font-family: 'Collegiate';
+	font-size: 400%;
+	color: #0092B2; 
+	text-align: center;
+	
+}
+h2 {
+	font-family: 'Molengo';
+	font-size:175%; 
+	text-align: center;
+	color: #776045;
+}
+h3 {
+	font-family: 'Molengo';
+	font-size:175%; 
+	text-align: left;
+	color: #776045;
+}
+header {
+	background-color: #776045;
+	color: white;
+	text-align: center;
+}
+header a:link {
+	color: #A8C545;
+}
+header a:visited {
+	color: #A8C545;
+}
+body {
+	font-family: 'Molengo';
+	font-size: 100%;
+	background-color: #DFD3B6;
+	color: #776045;
+	margin: 0px;
+	border: 0px;
+}
+.dashboard-content {
+	display: -webkit-box;
+	-webkit-box-orient: horizontal;
+	-webkit-box-pack:justify;	
+}
+.content {
+	padding: 10px;
+}
+.content-column {
+	width: 24%;
+	background-color: #A8C545;
+	color: #776045;
+	margin: 5px 5px 5px 5px;
+	text-align: center;
+	border-radius: 10px;
+	padding: 10px 0px 3px 3px;
+	opacity: .9;
+	-webkit-box-shadow: 5px 5px 5px #776045;	
+}
+.non-dashboard-content {
+	padding: 10px;
+}
+header a:link {
+	color: #A8C545;
+}
+header a:visited {
+	color: #A8C545;
+}
+.content-column-text {
+	text-align: left;
+	padding: 10px;	
+}
+.content-column-header {
+	font-size: 125%;
+}
+.content-column-header a:link {
+	text-decoration: none;
+}
+.bracket {
+	color: #776045;
+	padding: 0px 0px 0px 5px;
+}
+a:link {
+	color: #0092B2;
+}
+a:visited {
+	color: #0092B2;
+}
+footer {
+	background-color: #776045;
+	color: white;
+	margin: 10px 0px 0px 0px;
+	text-align: center;
+}
+footer a:link {
+	color: #A8C545;
+}
+footer a:visited {
+	color: #A8C545;
+}

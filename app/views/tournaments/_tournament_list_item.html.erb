@@ -1,10 +1,10 @@
-<li>
+<p class="content-column-text">
 <%= link_to tournament.name, tournament %>
 
--
-<%= render 'starts_at', :tournament => tournament %>
+<br/>
+<%= render '/tournaments/starts_at', :tournament => tournament %>
 
--
+<br/>
 
-<%= render 'ends_at', :tournament => tournament %>
-</li>
+<%= render '/tournaments/ends_at', :tournament => tournament %>
+</p>

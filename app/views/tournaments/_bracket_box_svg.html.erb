@@ -8,12 +8,12 @@ when 3 then 110 * match_iter + 170
 end %>)"><rect x="20" y="20" rx="10" ry="10" width="150" height="30" style="fill:
 	<% if players.first %>
 		<% if players.first.winner? %>
-		green
+		#A8C545
 		<% else %>
-		blue
+		#0092B2
 		<% end %>
 	<% else %>
-		blue
+		#0092B2
 	<% end %>
 	;stroke:black;stroke-width:4;opacity:0.5"/> <text x="30" y="40" style="font-family:Verdana;font-size:14;opacity:0.75">
 <% if players.first %>
@@ -40,12 +40,12 @@ when 3 then 110 * match_iter + 610
 end %>)"><rect x="20" y="20" rx="10" ry="10" width="150" height="30" style="fill:
 	<% if players.last %>
 		<% if players.last.winner? %>
-		green
+		#A8C545
 		<% else %>
-		blue
+		#0092B2
 		<% end %>
 	<% else %>
-		blue
+		#0092B2
 	<% end %>
 	;stroke:black;stroke-width:4;opacity:0.5"/> <text x="30" y="40" style="font-family:Verdana;font-size:14;opacity:0.75">
 <% if players.last %>
@@ -84,9 +84,9 @@ end %>)"><rect x="20" y="20" rx="10" ry="10" width="150" height="30" style="fill
 	when 3 then 390
 	end %>)"><rect x="20" y="20" rx="10" ry="10" width="150" height="30" style="fill:
 	<% if match.winner.nil? %>
-		blue
+		#0092B2
 	<% else %>
-		green
+		#A8C545
 	<% end %>
 	;stroke:black;stroke-width:4;opacity:0.5"/> <text x="30" y="40" style="font-family:Verdana;font-size:14;opacity:0.75">
 <% if players.first%>	

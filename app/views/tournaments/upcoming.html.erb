@@ -1,10 +1,12 @@
-<h1><%= @title = 'Upcoming Tournaments' %></h1>
+<h2><%= @title = 'Upcoming Tournaments' %></h2>
 
+<div class="content">
 <% if @tournaments.empty? %>
 <p>
 	Hm, no upcoming tournaments.  <%= link_to 'Follow in progress tournaments', in_progress_tournaments_path %>
 	or <%= link_to 'start your own', new_tournament_path %> (requires subscription)?
 </p>
 <% else %>
-<%= render :partial => 'list_tournaments' %>
+<%= render  '/tournaments/list_tournaments', :tournaments => @tournaments %>
 <% end %>
+</div>

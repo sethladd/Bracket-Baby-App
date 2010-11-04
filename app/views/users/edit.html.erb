@@ -1,5 +1,6 @@
-<h1><%= @title = 'My Info' %></h1>
+<h2><%= @title = 'My Info' %></h2>
 
+<div class="content">
 <%= error_messages_for @user %>
 
 <%= form_for(@user) do |f| %>
@@ -19,3 +20,4 @@
 		<%= f.submit 'Update' %>
 	</div>
 <% end %>
+</div>

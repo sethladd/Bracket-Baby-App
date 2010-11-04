@@ -4,7 +4,7 @@ Ended <%= distance_of_time_in_words(Time.now.utc, tournament.ended_at) %> ago
 
 <% elsif !tournament.started? && tournament.should_start? %>
 
-Once started, estimated to last <%= distance_of_time_in_words(tournament.should_start_at, tournament.should_end_at) %>
+Once started, estimated to last <%= distance_of_time_in_words(tournament.should_start_at, tournament.should_end_at) %>.
 
 <% elsif tournament.should_end? %>
 
@@ -12,6 +12,6 @@ Tournament formally finished, imminent end.
 
 <% else %>
 
-Estimated to end in <%= distance_of_time_in_words(Time.now.utc, tournament.should_end_at) %>
+Estimated to end in <%= distance_of_time_in_words(Time.now.utc, tournament.should_end_at) %>.
 
 <% end %>

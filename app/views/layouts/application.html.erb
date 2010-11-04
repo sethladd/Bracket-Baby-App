@@ -12,15 +12,13 @@
 	<header>
 		Note: This application currently only works with <a href="https://chrome.google.com/extensions/detail/ehehfnkgbccpcjmfhdkbeakkpibbcfdl?hl=en">Wordico</a>, the multiplayer crossword game.
 	</header>
-
+	<h1><img src="/images/baby.png" width="50" height="50">&nbsp;Bracket Baby&nbsp;<img src="/images/baby.png" width="50" height="50"></h1>
 <%= yield %>
 
 <footer>
-	<ul>
-		<li><%= link_to 'Home', root_path %></li>
-		<li><%= link_to 'My Info', edit_user_path(current_user) %></li>
-	</ul>
-	<p>Logged in as <%= current_user.email %></p>
+	<%= link_to 'Home', root_path %> | <%= link_to 'My Info', edit_user_path(current_user) %> | Logged in as <%= current_user.email %>
+	<% if signed_in? %> | <%= link_to 'Sign Out', session_path, :method => :delete %>
+	<% end %>
 </footer>
 </body>
 </html>
