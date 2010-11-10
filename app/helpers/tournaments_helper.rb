@@ -16,6 +16,17 @@ module TournamentsHelper
     
     players = match.match_players.sort_by{|mp| mp.id}
     
+    # in the case of only one preceding match finished, we need to
+    # pad the array in the right order so users can match up winners
+    # XXX this is nasty, but we don't track "slots" in a match, just a bag of players
+    if players.length == 1
+      if match.preceding_match1.match_players.include?(players.first)
+        players << nil
+      else
+        players.unshift nil
+      end
+    end
+    
     if (preceding_match != match && !preceding_match.winner.nil? &&
         (preceding_match.is_user_playing?(players.last.user)))
       players.reverse!
