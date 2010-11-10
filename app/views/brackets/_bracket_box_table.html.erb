@@ -1,4 +1,4 @@
-<td<% if round > 0 %> rowspan="<%= 2**round %>"<% end %>>
+<td id="match-<%= match.id %>"<% if round > 0 %> rowspan="<%= 2**round %>"<% end %>>
 	<% if match.finals? %><div>Finals!!</div><% end %>
 	<%= render 'bracket_box_player', :player => players.first %>
 	<%= render 'bracket_box_player', :player => players.last %>
