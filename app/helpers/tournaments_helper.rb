@@ -15,6 +15,7 @@ module TournamentsHelper
     return '' unless match
     
     players = match.match_players.sort_by{|mp| mp.id}
+    
     if (preceding_match != match && !preceding_match.winner.nil? &&
         (preceding_match.is_user_playing?(players.last.user)))
       players.reverse!

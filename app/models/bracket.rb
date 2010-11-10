@@ -1,6 +1,6 @@
 class Bracket < ActiveRecord::Base
   belongs_to :tournament, :counter_cache => true
-  has_many :matches, :dependent => :destroy
+  has_many :matches, :dependent => :destroy, :order => 'matches.id'
   belongs_to :winner, :class_name => 'User'
   
   def finished?
