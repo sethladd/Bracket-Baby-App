@@ -17,7 +17,7 @@ module BracketsHelper
     players = match.match_players.sort_by{|mp| mp.id}
     
     # so this match lists its players in order from previous matches
-    if previous_match && previous_match.is_user_playing?(players.last.user)
+    if !players.empty? && previous_match && previous_match.is_user_playing?(players.last.user)
       players.reverse!
     end
     
