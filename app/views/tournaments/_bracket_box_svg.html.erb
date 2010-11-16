@@ -89,10 +89,10 @@ end %>)"><rect x="20" y="20" rx="10" ry="10" width="150" height="30" style="fill
 		#A8C545
 	<% end %>
 	;stroke:black;stroke-width:4;opacity:0.5"/> <text x="30" y="40" style="font-family:Verdana;font-size:14;opacity:0.75">
-<% if players.first%>	
-	<% if players.first.winner? %>
+<% if players.first %>	
+	<% if players.first && players.first.winner? %>
 		<%= players.first.nickname %>: <%= players.first.score %>
-	<% elsif players.last.winner? %>
+	<% elsif players.last && players.last.winner? %>
 		<%= players.last.nickname %>: <%= players.last.score %>
 	<% else %>
 		TBD
